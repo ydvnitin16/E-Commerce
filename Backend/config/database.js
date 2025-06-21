@@ -8,4 +8,4 @@ async function connectDB() {
         .then(() => console.log(`Databse Connected.`));
 }
 
-export { connectDB };
+export default connectDB;
