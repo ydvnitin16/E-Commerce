@@ -13,8 +13,16 @@ dotenv.config();
 connectDB();
 
 // Middlewares
-app.use(cors('http://localhost:5173'));
+// app.use(
+//     cors(
+//         cors({
+//             origin: 'http://localhost:5173',
+//             credentials: true, // 👈 Tell server i accept your cookies
+//         })
+//     )
+// );
 app.use(express.json());
+app.use(cookieParser());
 
 // Routes
 app.use('/', productRoutes);

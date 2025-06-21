@@ -1,26 +1,46 @@
 import mongoose from 'mongoose';
 
-const productSchema = new mongoose.Schema({
-    name: String,
-    description: String,
-    image: String,
-    price: Number,
-    category: {
-        type: String,
-        enum: [
-            'Smartphones',
-            'Laptops',
-            'Earbuds & Headphones',
-            'Smartwatches',
-            'Televisions',
-            'Cameras',
-            'Gaming Devices',
-            'Home Appliances',
-            'Computer Accessories',
-        ],
+const productSchema = new mongoose.Schema(
+    {
+        name: {
+            type: String,
+            required: true,
+        },
+        description: {
+            type: String,
+            required: true,
+        },
+        image: {
+            type: String,
+            required: true,
+        },
+        price: {
+            type: Number,
+            required: true,
+            min: 1,
+        },
+        category: {
+            type: String,
+            enum: [
+                'Smartphones',
+                'Laptops',
+                'Earbuds & Headphones',
+                'Smartwatches',
+                'Televisions',
+                'Cameras',
+                'Gaming Devices',
+                'Home Appliances',
+                'Computer Accessories',
+            ],
+            required: true,
+        },
+        inStock: {
+            type: Boolean,
+            default: true,
+        },
     },
-    inStock: Boolean,
-});
+    { timestamps: true }
+);
 
 const Product = mongoose.model('Product', productSchema);
 

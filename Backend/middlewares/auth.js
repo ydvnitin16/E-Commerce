@@ -15,3 +15,16 @@ const auth = async (req, res, next) => {
             .json({ message: 'Server error. Please try again later.' });
     }
 };
+
+const isAdmin = (req, res, next) => {
+    const { role } = req.user;
+
+    if (role !== 'admin')
+        return res
+            .status(403)
+            .json({ message: 'You have no permission to access this page' });
+
+    next();
+};
+
+export { auth, isAdmin };

@@ -4,9 +4,8 @@ import jwt from 'jsonwebtoken';
 
 // Register user_Store on Database
 const registerUser = async (req, res) => {
+    const { name, email, password } = req.body;
     try {
-        const { name, email, password } = req.body;
-
         // Check is User already exists
         const existingUser = await User.findOne({ email });
 
@@ -15,7 +14,8 @@ const registerUser = async (req, res) => {
 
         // hash password using bcrypt
         const hashPwd = await bcrypt.hash(password, 10);
-        console.log(hashPwd);
+
+        // Save user info in DB
         const user = await User({
             name,
             email,
@@ -55,9 +55,9 @@ const loginUser = async (req, res) => {
 
         const token = jwt.sign(
             {
-                userId: userInfo._id,
-                userName: userInfo.name,
-                userRole: userInfo.role,
+                id: userInfo._id,
+                name: userInfo.name,
+                role: userInfo.role,
             },
             process.env.JWT_SECRET_KEY,
             { expiresIn: '3d' }
