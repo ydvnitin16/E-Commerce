@@ -1,0 +1,22 @@
+# Node modules for both Backend and Frontend
+**/node_modules/
+**/dist/
+**/.next/
+**/.cache/
+**/.turbo/
+
+# Logs
+**/logs/
+**/*.log
+
+# Env files
+**/.env
+**/.env.*
+
+# IDE/Editor configs
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
