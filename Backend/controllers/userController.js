@@ -2,7 +2,7 @@ import User from '../models/Users.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
-// Register user_Store on Database
+// user register -> Store user info to the DB
 const registerUser = async (req, res) => {
     const { name, email, password } = req.body;
     try {
@@ -32,7 +32,7 @@ const registerUser = async (req, res) => {
     }
 };
 
-// Handle Login
+// User Login -> Auth user to get access
 const loginUser = async (req, res) => {
     const { email, password } = req.body;
     try {
@@ -78,6 +78,7 @@ const loginUser = async (req, res) => {
     }
 };
 
+// User Logout 
 const logoutUser = (req, res) => {
     res.clearCookie('authHeader');
     res.status(200).json({ message: 'Logout Successfully.' });

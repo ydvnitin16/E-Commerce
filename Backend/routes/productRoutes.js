@@ -3,6 +3,7 @@ import Product from '../models/Products.js';
 
 const router = express.Router();
 
+// User -> Shop -> Show products
 router.get('/products', async (req, res) => {
     const { category } = req.query;
     try {
@@ -21,6 +22,7 @@ router.get('/products', async (req, res) => {
     }
 });
 
+// Product Route -> Show details about product
 router.get('/products/:id', async (req, res) => {
     const { id } = req.params;
     try {

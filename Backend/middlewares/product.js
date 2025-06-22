@@ -1,3 +1,4 @@
+// Admin Add product -> Validate fields before adding product
 const validateProduct = (req, res, next) => {
     const { name, description, price, category } = req.body;
     const image = req.file;

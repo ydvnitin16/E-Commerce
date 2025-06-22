@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 
+// Auth middleware to auth user with jWT
 const auth = async (req, res, next) => {
     // Check is authHeader exits
     const authHeader = req.cookies.authHeader;
@@ -18,6 +19,7 @@ const auth = async (req, res, next) => {
     }
 };
 
+// Security -> Admin middleware to check role
 const isAdmin = (req, res, next) => {
     const { role } = req.user;
 

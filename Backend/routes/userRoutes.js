@@ -4,6 +4,7 @@ import { logoutUser, registerUser, loginUser } from '../controllers/userControll
 
 const router = express.Router();
 
+// User Routes to Register/Login and Logout
 router.post('/register', validateUser('register'), registerUser);
 router.post('/login', validateUser('login'), loginUser);
 router.delete('/logout', logoutUser);

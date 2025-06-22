@@ -1,12 +1,13 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import cookieParser from 'cookie-parser';
 
 import connectDB from './config/database.js';
 import adminRoutes from './routes/adminRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 import productRoutes from './routes/productRoutes.js';
-import cookieParser from 'cookie-parser';
+import orderRoutes from './routes/orderRoutes.js';
 
 const app = express();
 dotenv.config();
@@ -21,7 +22,7 @@ connectDB();
 //         })
 //     )
 // );
-app.use(express.urlencoded({extended: true}))
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 
@@ -29,6 +30,7 @@ app.use(cookieParser());
 app.use('/', productRoutes);
 app.use('/user', userRoutes);
 app.use('/admin', adminRoutes);
+app.use('/orders', orderRoutes);
 
 // Run Server On Port
 const PORT = process.env.PORT || 3000;

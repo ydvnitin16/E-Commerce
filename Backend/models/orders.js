@@ -26,7 +26,15 @@ const orderSchema = new mongoose.Schema({
         min: 0,
     },
     address: {
+        street: { type: String, required: true },
+        city: { type: String, required: true },
+        state: { type: String, required: true },
+        country: { type: String, required: true },
+        zipCode: { type: String, required: true },
+    },
+    paymentMethod: {
         type: String,
+        enum: ['cash on delivery', 'credit/debit cards', 'digital wallets'],
         required: true,
     },
     status: {
@@ -36,6 +44,6 @@ const orderSchema = new mongoose.Schema({
     },
 });
 
-const Order = mongoose.model('Product', orderSchema);
+const Order = mongoose.model('Order', orderSchema);
 
 export default Order;

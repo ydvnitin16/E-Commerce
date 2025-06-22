@@ -1,5 +1,6 @@
 import Product from '../models/Products.js';
 
+// Admin -> Add product
 const addProduct = async (req, res) => {
     const { name, description, price, category, inStock } = req.body;
     const imagePath = req.file.path;
@@ -22,6 +23,7 @@ const addProduct = async (req, res) => {
     }
 };
 
+// Admin -> Delete product
 const deleteProduct = async (req, res) => {
     const { id } = req.params;
     try {
@@ -42,6 +44,7 @@ const deleteProduct = async (req, res) => {
     }
 };
 
+// Admin -> Update product
 const updateProduct = async (req, res) => {
     const { id } = req.params;
     try {
