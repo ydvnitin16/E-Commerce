@@ -1,3 +1,5 @@
+import jwt from 'jsonwebtoken';
+
 const auth = async (req, res, next) => {
     // Check is authHeader exits
     const authHeader = req.cookies.authHeader;
@@ -6,7 +8,7 @@ const auth = async (req, res, next) => {
 
     try {
         const token = authHeader.split(' ')[1];
-        const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+        const decoded = await jwt.verify(token, process.env.JWT_SECRET_KEY);
         req.user = decoded;
         next();
     } catch (err) {
