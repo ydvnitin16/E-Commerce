@@ -15,7 +15,7 @@ const validateProduct = (req, res, next) => {
         'Computer Accessories',
     ];
 
-    if (!name || !description || !price || !image || !category)
+    if (!name || !description || !price || !category)
         return res.status(400).json({ message: 'Please fill all the fields' });
 
     if (description.length < 10)

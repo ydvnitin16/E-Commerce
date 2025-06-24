@@ -16,6 +16,11 @@ const placeOrder = async (req, res) => {
             if (!product)
                 return res.status(400).json({ message: 'Product not found' });
 
+            if (!product.inStock)
+                return res
+                    .status(400)
+                    .json({ message: 'Product Out of Stock' });
+
             const quantity = item.quantity;
             if (quantity < 1)
                 return res.status(400).json({
@@ -90,18 +95,34 @@ const updateStatus = async (req, res) => {
     ];
     const { status } = req.body;
     try {
-        const order = await Order.findById(id);
-
+        console.log(`entered`);
+        const order = await Order.findById(id).populate('items.product');
+        console.log(order.items[0].product._id);
         if (!order)
             return res.status(404).json({
                 message: 'Order not found',
             });
-        console.log(allowedStatus, status);
-        // Error in status not match with valid status
+
         if (!allowedStatus.includes(status))
             return res.status(404).json({
                 message: 'Please select valid status',
             });
+
+        if (status === 'delivered') {
+            for (let item of order.items) {
+                try {
+                    const id = item.product._id;
+                    console.log(`Updating Sold Items`);
+                    const product = await Product.findById(id);
+                    product.itemSold = product.itemSold + item.quantity;
+                    product.save();
+                } catch (error) {
+                    res.status(500).json({
+                        message: 'Server error, please try again later.',
+                    });
+                }
+            }
+        }
 
         order.status = status;
         await order.save();

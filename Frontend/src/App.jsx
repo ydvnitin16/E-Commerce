@@ -1,12 +1,38 @@
-import React from 'react'
+import React from 'react';
+import {
+    createBrowserRouter,
+    createRoutesFromElements,
+    Route,
+    RouterProvider,
+} from 'react-router';
+
+import MainLayout from './layouts/MainLayout.jsx';
+import Home from './pages/Home.jsx';
+import ProductDetails from '../src/features/products/ProductDetails.jsx';
+import Login from './features/auth/Login.jsx';
+import ProductList from './features/products/ProductList.jsx';
 
 const App = () => {
-  const data = fetch("http://localhost:3000").then(res => res.json());
-  console.log(data)
+    const router = createBrowserRouter(
+        createRoutesFromElements(
+            <>
+                <Route path="/" element={<MainLayout />}>
+                    <Route index element={<Home />} />
+                    <Route path="product/:id" element={<ProductDetails />} />
+                    <Route path='products' element={<ProductList />} />
+                </Route>
+                <Route path="/user" element={<MainLayout />}>
+                    <Route path="login" element={<Login />} />
+                </Route>
+            </>
+        )
+    );
 
-  return (
-    <div></div>
-  )
-}
+    return (
+        <>
+            <RouterProvider router={router} />
+        </>
+    );
+};
 
-export default App
+export default App;

@@ -5,16 +5,23 @@ const router = express.Router();
 
 // User -> Shop -> Show products
 router.get('/products', async (req, res) => {
-    const { category } = req.query;
+    const { category, page, limit, bestSeller } = req.query;
     try {
         let query = {};
 
-        if (category) query.category = category;
+        if (category && category !== 'All') query.category = category;
+        let productQuery = Product.find(query); // returns object
 
-        const products = await Product.find(query); // if category given then find by category otherwise all
-        if (!products) return res.status(404).json({ message: 'No Products' });
+        if (bestSeller) productQuery = productQuery.sort({ itemSold: -1 });
 
-        res.status(200).json({ message: 'All Products', data: products });
+        const skip = (Number(page) -1 ) * Number(limit);
+        productQuery = productQuery.skip(skip).limit(Number(limit));
+
+        const products = await productQuery; // actual call happens here.
+
+        if (!products || products.length === 0) return res.status(404).json({ message: 'No Products' });
+        
+        res.status(200).json({ message: 'All Products', products });
     } catch (error) {
         res.status(500).json({
             message: 'Server error. please try again later.',
@@ -23,14 +30,14 @@ router.get('/products', async (req, res) => {
 });
 
 // Product Route -> Show details about product
-router.get('/products/:id', async (req, res) => {
+router.get('/product/:id', async (req, res) => {
     const { id } = req.params;
     try {
         const product = await Product.findById(id);
         if (!product)
             return res.status(404).json({ message: 'Product Not Found' });
 
-        res.status(200).json({ message: 'All Products', data: product });
+        res.status(200).json({ message: 'All Products', product });
     } catch (error) {
         res.status(500).json({
             message: 'Server error. please try again later.',
