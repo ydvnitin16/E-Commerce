@@ -8,16 +8,20 @@ import {
     faBagShopping,
     faBars,
 } from '@fortawesome/free-solid-svg-icons';
+import { useAuthStore } from '../stores/UseAuthStore.jsx';
 
 const Navbar = () => {
-    const [isOpen, setIsOpen] = useState(false);
+    const user = useAuthStore((state) => state.user);
+
+    const [isNavOpen, setisNavOpen] = useState(false);
+    const [isAuthOpen, setisAuthOpen] = useState(false);
     const navigate = useNavigate();
 
     const navLinks = [
         { name: 'Home', path: '/' },
         { name: 'Shop', path: '/products' },
         { name: 'My Orders', path: '/order' },
-        { name: 'Contact Us', path: '/contact' }
+        { name: 'Contact Us', path: '/contact' },
     ];
 
     return (
@@ -53,7 +57,10 @@ const Navbar = () => {
                     <button className="text-gray-200 hover:text-gray-400 cursor-pointer">
                         <FontAwesomeIcon icon={faSearch} size="lg" />
                     </button>
-                    <button className="text-gray-200 hover:text-gray-400 cursor-pointer">
+                    <button
+                        className="text-gray-200 hover:text-gray-400 cursor-pointer"
+                        onClick={() => setisAuthOpen(!isAuthOpen)}
+                    >
                         <FontAwesomeIcon icon={faUser} size="lg" />
                     </button>
                     <button className="relative text-gray-200 hover:text-gray-400 cursor-pointer">
@@ -66,15 +73,54 @@ const Navbar = () => {
                     {/* Hamburger */}
                     <button
                         className="md:hidden text-gray-200 hover:text-gray-400 cursor-pointer"
-                        onClick={() => setIsOpen(!isOpen)}
+                        onClick={() => setisNavOpen(!isNavOpen)}
                     >
                         <FontAwesomeIcon icon={faBars} size="xl" />
                     </button>
                 </div>
             </div>
 
+            {/* User Info Nav */}
+            {isAuthOpen && user && (
+                <div className="mt-4 p-4 w-sm bg-white/20 backdrop-blur-md shadow-lg rounded-2xl text-gray-200 space-y-2">
+                    <div>
+                        <p className="font-bold text-lg">{user.name}</p>
+                        <p className="text-sm text-gray-300">{user.email}</p>
+                    </div>
+                    <button
+                        className="w-full bg-red-500 hover:bg-red-600 text-white py-2 rounded"
+                        onClick={() => setisAuthOpen(false)}
+                    >
+                        Logout
+                    </button>
+                </div>
+            )}
+
+            {isAuthOpen && !user && (
+                <div className="mt-4 p-4 w-sm bg-white/20 backdrop-blur-md shadow-lg rounded-2xl text-gray-200 space-y-2">
+                    <button
+                        className="w-full bg-red-500 hover:bg-red-600 text-white py-2 rounded"
+                        onClick={() => {
+                            navigate('/user/signup');
+                            setisAuthOpen(false);
+                        }}
+                    >
+                        Signup
+                    </button>
+                    <button
+                        className="w-full bg-red-500 hover:bg-red-600 text-white py-2 rounded"
+                        onClick={() => {
+                            navigate('/user/login');
+                            setisAuthOpen(false);
+                        }}
+                    >
+                        Login
+                    </button>
+                </div>
+            )}
+
             {/* Mobile Nav */}
-            {isOpen && (
+            {isNavOpen && (
                 <nav className="md:hidden px-4 pb-4 ">
                     <div className="flex flex-col space-y-2 bg-white/20 backdrop-blur-md shadow-lg rounded-2xl p-3">
                         {navLinks.map((link) => (
@@ -88,7 +134,7 @@ const Navbar = () => {
                                             : ''
                                     }`
                                 }
-                                onClick={() => setIsOpen(false)} // close menu after click
+                                onClick={() => setisNavOpen(false)} // close menu after click
                             >
                                 {link.name}
                             </NavLink>

@@ -1,12 +1,17 @@
 // Login.jsx
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import bgImage from '../.././assets/Hero.jpg';
 import { useState } from 'react';
+import { useAuthStore } from '../../stores/UseAuthStore.jsx';
 
 const Login = () => {
+    const navigate = useNavigate();
+
+    const storeLogin = useAuthStore((state) => state.login);
+
     const schema = yup.object({
         email: yup
             .string()
@@ -33,15 +38,21 @@ const Login = () => {
     const userLogin = async (data) => {
         console.log(`Form State : `, form);
 
-        const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/user/login`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(form),
-        })
+        const res = await fetch(
+            `${import.meta.env.VITE_SERVER_URL}/user/login`,
+            {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(form),
+            }
+        );
 
-        const resData = await res.json()
-        console.log(resData)
+        const resData = await res.json();
+        if (res.ok) {
+            storeLogin(resData.user);
+        }
         reset();
+        navigate('/')
     };
 
     return (

@@ -70,7 +70,7 @@ const loginUser = async (req, res) => {
             maxAge: 3 * 24 * 60 * 60 * 1000, // Expires in 3 Days
         });
 
-        res.status(200).json({ message: 'Logged In Successfully.' });
+        res.status(200).json({ message: 'Logged In Successfully.', user: {name: userInfo.name, email: userInfo.email, role: userInfo.role} });
     } catch (error) {
         res.status(500).json({
             message: 'Server error. Please try again later.',
