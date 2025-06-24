@@ -11,6 +11,7 @@ import Home from './pages/Home.jsx';
 import ProductDetails from '../src/features/products/ProductDetails.jsx';
 import Login from './features/auth/Login.jsx';
 import ProductList from './features/products/ProductList.jsx';
+import Signup from './features/auth/Signup.jsx';
 
 const App = () => {
     const router = createBrowserRouter(
@@ -23,6 +24,7 @@ const App = () => {
                 </Route>
                 <Route path="/user" element={<MainLayout />}>
                     <Route path="login" element={<Login />} />
+                    <Route path="signup" element={<Signup />} />
                 </Route>
             </>
         )
