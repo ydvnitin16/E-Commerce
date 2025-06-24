@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import bgImage from '../.././assets/Hero.jpg';
 
 const Signup = () => {
     const schema = yup.object({
@@ -16,6 +17,12 @@ const Signup = () => {
         password: yup.string().min(6).required('Password is Required'),
     });
 
+    const [form, setForm] = useState({
+        name: null,
+        email: null,
+        password: null,
+    });
+
     const {
         register,
         reset,
@@ -26,13 +33,24 @@ const Signup = () => {
     });
 
     const onSubmit = (data) => {
-        console.log(data);
-        reset()
+        console.log(`Form State: `, form)
+        reset();
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
-            <div className="w-full max-w-md bg-white p-8 rounded-2xl shadow-md">
+        <div
+            className="relative min-h-screen flex items-center justify-center px-4"
+            style={{
+                backgroundImage: `url(${bgImage})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+            }}
+        >
+            {/* Blur Overlay */}
+            <div className="absolute inset-0 bg-white/10 z-0"></div>
+
+            {/* Signup Card */}
+            <div className="relative z-10 w-full max-w-md bg-white bg-opacity-90 p-8 rounded-xl shadow-md">
                 <h2 className="text-2xl font-bold mb-6 text-center">
                     Create Account
                 </h2>
@@ -43,11 +61,14 @@ const Signup = () => {
                         </label>
                         <input
                             {...register('name')}
+                            onChange={(e) => setForm(prev => ({...prev, name: e.target.value}))}
                             type="text"
                             className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                             placeholder="John Doe"
                         />
-                         <p className="text-sm text-red-500 mt-1">{errors?.name?.message}</p>
+                        {errors?.name?.message && <p className="text-sm text-red-500 mt-1">
+                            {errors?.name?.message}
+                        </p>}
                     </div>
 
                     <div>
@@ -56,11 +77,14 @@ const Signup = () => {
                         </label>
                         <input
                             {...register('email')}
+                            onChange={(e) => setForm(prev => ({...prev, email: e.target.value}))}
                             type="email"
-                            className="w-full px-4 py-2 border  border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                             placeholder="you@example.com"
                         />
-                         <p className="text-sm text-red-500 mt-1">{errors?.email?.message}</p>
+                        {errors?.email?.message && <p className="text-sm text-red-500 mt-1">
+                            {errors?.email?.message}
+                        </p>}
                     </div>
 
                     <div>
@@ -69,11 +93,14 @@ const Signup = () => {
                         </label>
                         <input
                             {...register('password')}
+                            onChange={(e) => setForm(prev => ({...prev, password: e.target.value}))}
                             type="password"
                             className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                             placeholder="••••••••"
                         />
-                         <p className="text-sm text-red-500 mt-1">{errors?.password?.message}</p>
+                        {errors?.password?.message && <p className="text-sm text-red-500 mt-1">
+                            {errors?.password?.message}
+                        </p>}
                     </div>
 
                     <button

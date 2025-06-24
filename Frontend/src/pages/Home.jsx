@@ -76,7 +76,7 @@ const Home = () => {
                         </p>
                     </div>
                     <button
-                        onClick={() => navigate('/shop')}
+                        onClick={() => navigate('/products')}
                         className="bg-white text-black px-6 py-3 rounded font-semibold hover:bg-gray-200 transition cursor-pointer"
                     >
                         Shop Now
@@ -91,7 +91,7 @@ const Home = () => {
                             key={item.name}
                             className="flex flex-col items-center text-center cursor-pointer transition-transform hover:scale-105"
                             onClick={() =>
-                                navigate(`/products?category=${item.slug}`)
+                                navigate(`/products?${new URLSearchParams({category: item.slug})}`)
                             }
                         >
                             <img
@@ -133,8 +133,8 @@ const Home = () => {
                                 Laptops
                             </h2>
                             <button
-                                onClick={() => navigate('/category/laptops')}
-                                className="mt-2 text-white underline underline-offset-4 hover:text-gray-200 transition"
+                                onClick={() => navigate('/products?category=Laptops')}
+                                className="mt-2 text-white underline underline-offset-4 hover:text-gray-200 transition cursor-pointer"
                             >
                                 Shop
                             </button>
@@ -155,8 +155,8 @@ const Home = () => {
                                     Smartphones
                                 </h3>
                                 <button
-                                    onClick={() => navigate('/category/phones')}
-                                    className="mt-1 text-white underline underline-offset-4 hover:text-gray-200 transition"
+                                    onClick={() => navigate('/products?category=Smartphones')}
+                                    className="mt-1 text-white underline underline-offset-4 hover:text-gray-200 transition cursor-pointer"
                                 >
                                     Shop
                                 </button>
@@ -176,9 +176,9 @@ const Home = () => {
                                 </h3>
                                 <button
                                     onClick={() =>
-                                        navigate('/category/accessories')
+                                        navigate(`/products?${new URLSearchParams({category: 'Earbuds & Headphones'})}`)
                                     }
-                                    className="mt-1 text-white underline underline-offset-4 hover:text-gray-200 transition"
+                                    className="mt-1 text-white underline underline-offset-4 hover:text-gray-200 transition cursor-pointer"
                                 >
                                     Shop
                                 </button>

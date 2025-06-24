@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import bgImage from '../.././assets/Hero.jpg';
+import { useState } from 'react';
 
 const Login = () => {
     const schema = yup.object({
@@ -23,27 +25,52 @@ const Login = () => {
         resolver: yupResolver(schema),
     });
 
+    const [form, setForm] = useState({
+        email: null,
+        password: null,
+    });
+
     const onSubmit = (data) => {
-        console.log(data);
+        console.log(`Form State : `, form);
         reset();
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
-            <div className="w-full max-w-md bg-white p-8 rounded-xl shadow-md">
+        <div
+            className="relative min-h-screen flex items-center justify-center px-4"
+            style={{
+                backgroundImage: `url(${bgImage})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+            }}
+        >
+            {/* Blur Overlay */}
+            <div className="absolute inset-0  bg-white/10 z-0"></div>
+
+            {/* Login Card */}
+            <div className="relative z-10 w-full max-w-md bg-white bg-opacity-90 p-8 rounded-xl shadow-md">
                 <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
+
                 <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
                     <div>
                         <label className="block text-sm font-medium mb-1">
                             Email
                         </label>
                         <input
-                        {...register('email')}
+                            {...register('email')}
+                            onChange={(e) =>
+                                setForm((prev) => ({
+                                    ...prev,
+                                    email: e.target.value,
+                                }))
+                            }
                             type="email"
                             className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                             placeholder="you@example.com"
                         />
-                         <p className="text-sm text-red-500 mt-1">{errors?.email?.message}</p>
+                        <p className="text-sm text-red-500 mt-1">
+                            {errors?.email?.message}
+                        </p>
                     </div>
 
                     <div>
@@ -51,12 +78,20 @@ const Login = () => {
                             Password
                         </label>
                         <input
-                        {...register('password')}
+                            {...register('password')}
+                            onChange={(e) =>
+                                setForm((prev) => ({
+                                    ...prev,
+                                    password: e.target.value,
+                                }))
+                            }
                             type="password"
                             className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                             placeholder="••••••••"
                         />
-                         <p className="text-sm text-red-500 mt-1">{errors?.password?.message}</p>
+                        <p className="text-sm text-red-500 mt-1">
+                            {errors?.password?.message}
+                        </p>
                     </div>
 
                     <button
