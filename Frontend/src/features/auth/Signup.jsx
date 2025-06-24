@@ -32,8 +32,16 @@ const Signup = () => {
         resolver: yupResolver(schema),
     });
 
-    const onSubmit = (data) => {
+    const registerUser = async (data) => {
         console.log(`Form State: `, form)
+
+        const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/user/register`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(form),
+        })
+        const resData = await res.json()
+        console.log(resData)
         reset();
     };
 
@@ -54,7 +62,7 @@ const Signup = () => {
                 <h2 className="text-2xl font-bold mb-6 text-center">
                     Create Account
                 </h2>
-                <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
+                <form className="space-y-4" onSubmit={handleSubmit(registerUser)}>
                     <div>
                         <label className="block text-sm font-medium mb-1">
                             Full Name

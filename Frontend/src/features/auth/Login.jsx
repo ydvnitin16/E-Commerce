@@ -30,8 +30,17 @@ const Login = () => {
         password: null,
     });
 
-    const onSubmit = (data) => {
+    const userLogin = async (data) => {
         console.log(`Form State : `, form);
+
+        const res = await fetch(`${import.meta.env.VITE_SERVER_URL}/user/login`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(form),
+        })
+
+        const resData = await res.json()
+        console.log(resData)
         reset();
     };
 
@@ -51,7 +60,7 @@ const Login = () => {
             <div className="relative z-10 w-full max-w-md bg-white bg-opacity-90 p-8 rounded-xl shadow-md">
                 <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
 
-                <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
+                <form className="space-y-4" onSubmit={handleSubmit(userLogin)}>
                     <div>
                         <label className="block text-sm font-medium mb-1">
                             Email
