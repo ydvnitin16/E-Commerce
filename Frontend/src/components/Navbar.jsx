@@ -89,7 +89,10 @@ const Navbar = () => {
                     </div>
                     <button
                         className="w-full bg-red-500 hover:bg-red-600 text-white py-2 rounded"
-                        onClick={() => setisAuthOpen(false)}
+                        onClick={() => {
+                            setisAuthOpen(false);
+                            navigate('/user/logout')
+                        }}
                     >
                         Logout
                     </button>

@@ -50,9 +50,11 @@ const Login = () => {
         const resData = await res.json();
         if (res.ok) {
             storeLogin(resData.user);
+            navigate('/')
         }
+        console.log(res.data)
         reset();
-        navigate('/')
+        
     };
 
     return (
