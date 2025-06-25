@@ -40,7 +40,7 @@ const ProductCard = ({ products }) => {
                                 className="absolute top-2 right-2 text-white text-xl z-10 backdrop-blur-sm bg-white/20 p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-30"
                             />
                             {product.inStock ? (
-                                cartIds.includes(product._id) ? (
+                                cartIds.some(item => item.productId === product._id) ? (
                                     <button
                                         onClick={(e) => {
                                             e.stopPropagation();

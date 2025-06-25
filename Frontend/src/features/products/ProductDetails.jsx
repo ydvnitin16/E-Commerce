@@ -2,11 +2,13 @@ import { useLoaderData, useParams } from 'react-router';
 import { useQuery } from '@tanstack/react-query';
 import { useHandleAddToCart } from '../../utils/handlerFunctions.js';
 import useCartStore from '../../stores/UseCartStore.jsx';
+import { useState } from 'react';
 
 const ProductDetails = () => {
     const { id } = useParams();
     const handleAddToCart = useHandleAddToCart();
     const cartIds = useCartStore(state => state.cartIds)
+    const [qty, setQty] = useState(1)
 
     const {
         data: product,
@@ -54,13 +56,15 @@ const ProductDetails = () => {
                     </p>
 
                     <div className="flex items-center gap-4">
-                        {cartIds.includes(product._id) ? '' : <input
+                        {cartIds.some(item => item.productId === product._id) ? '' : <input
                             type="number"
                             defaultValue={1}
+                            min={1}
+                            onChange={(e) => setQty(e.target.value)}
                             className="w-16 border rounded px-2 py-1"
                         />  }
                         {product.inStock ? (
-                            cartIds.includes(product._id) ? (
+                            cartIds.some(item => item.productId === product._id) ? (
                                 <button
                                     className="bg-black text-white px-6 py-2 rounded hover:bg-gray-800 transition cursor-pointer"
                                 >
@@ -68,7 +72,7 @@ const ProductDetails = () => {
                                 </button>
                             ) : (
                                 <button
-                                    onClick={() => handleAddToCart(product._id)}
+                                    onClick={() => handleAddToCart(product._id, qty)}
                                     className="bg-black text-white px-6 py-2 rounded hover:bg-gray-800 transition cursor-pointer"
                                 >
                                     Add to Cart

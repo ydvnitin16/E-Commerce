@@ -8,20 +8,43 @@ const useCartStore = create(
             cartIds: [],
             count: 0,
 
-            addToCart: (productId) => {
-                if (!get().cartIds.includes(productId)) {
+            addToCart: (productId, quantity = 1) => {
+                if (
+                    !get().cartIds.some((item) => item.productId === productId)
+                ) {
                     set({
-                        cartIds: [...get().cartIds, productId],
+                        cartIds: [
+                            ...get().cartIds,
+                            { productId: productId, quantity: quantity },
+                        ],
                         count: get().count + 1,
                     });
                 }
             },
 
             removeFromCart: (productId) => {
-                if (get().cartIds.includes(productId)) {
+                if (
+                    get().cartIds.some((item) => item.productId === productId)
+                ) {
                     set({
-                        cartIds: get().cartIds.filter((id) => id !== productId),
+                        cartIds: get().cartIds.filter(
+                            (item) => item.productId !== productId
+                        ),
                         count: get().count - 1,
+                    });
+                }
+            },
+            updateQuantity: (productId, quantity) => {
+                if (
+                    get().cartIds.some((item) => item.productId === productId)
+                ) {
+                    set({
+                        cartIds: get().cartIds.map((item) =>
+                            item.productId === productId
+                                ? { productId, quantity }
+                                : item
+                        ),
+                        count: get().count,
                     });
                 }
             },
