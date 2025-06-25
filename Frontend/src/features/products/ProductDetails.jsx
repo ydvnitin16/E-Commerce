@@ -1,9 +1,12 @@
 import { useLoaderData, useParams } from 'react-router';
 import { useQuery } from '@tanstack/react-query';
+import { useHandleAddToCart } from '../../utils/handlerFunctions.js';
+import useCartStore from '../../stores/UseCartStore.jsx';
 
 const ProductDetails = () => {
     const { id } = useParams();
-    console.log(id);
+    const handleAddToCart = useHandleAddToCart();
+    const cartIds = useCartStore(state => state.cartIds)
 
     const {
         data: product,
@@ -51,15 +54,26 @@ const ProductDetails = () => {
                     </p>
 
                     <div className="flex items-center gap-4">
-                        <input
+                        {cartIds.includes(product._id) ? '' : <input
                             type="number"
                             defaultValue={1}
                             className="w-16 border rounded px-2 py-1"
-                        />
+                        />  }
                         {product.inStock ? (
-                            <button className="bg-black text-white px-6 py-2 rounded hover:bg-gray-800 transition cursor-pointer">
-                                Add to Cart
-                            </button>
+                            cartIds.includes(product._id) ? (
+                                <button
+                                    className="bg-black text-white px-6 py-2 rounded hover:bg-gray-800 transition cursor-pointer"
+                                >
+                                    Added
+                                </button>
+                            ) : (
+                                <button
+                                    onClick={() => handleAddToCart(product._id)}
+                                    className="bg-black text-white px-6 py-2 rounded hover:bg-gray-800 transition cursor-pointer"
+                                >
+                                    Add to Cart
+                                </button>
+                            )
                         ) : (
                             <button
                                 disabled={true}

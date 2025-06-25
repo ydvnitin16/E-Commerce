@@ -8,11 +8,9 @@ import ProductCard from '../../components/ProductCard';
 const ProductList = () => {
     const [searchParams] = useSearchParams(); // used to get query from the url
     const selectedCategory = searchParams.get('category');
-    // const page = searchParams.get('page');
-    // const limit = searchParams.get('limit');
 
     const [page, setpage] = useState(1);
-    const [limit, setlimit] = useState(5);
+    const [limit, setlimit] = useState(10);
 
     const {
         data: products,

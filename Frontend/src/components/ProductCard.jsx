@@ -1,9 +1,15 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router';
+import { useHandleAddToCart } from '../utils/handlerFunctions.js';
+import useCartStore from '../stores/UseCartStore.jsx';
 
 const ProductCard = ({ products }) => {
     const navigate = useNavigate();
+    const handleAddToCart = useHandleAddToCart();
+
+    const cartIds = useCartStore((state) => state.cartIds);
+
     return (
         <>
             {products &&
@@ -33,9 +39,35 @@ const ProductCard = ({ products }) => {
                                 icon={faHeart}
                                 className="absolute top-2 right-2 text-white text-xl z-10 backdrop-blur-sm bg-white/20 p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-30"
                             />
-                            <button className="absolute bottom-2 left-1/2 -translate-x-1/2 text-lg w-[90%] cursor-pointer bg-black text-white px-4 py-1 rounded-md z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                Add to cart
-                            </button>
+                            {product.inStock ? (
+                                cartIds.includes(product._id) ? (
+                                    <button
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                        }}
+                                        className="absolute bottom-2 left-1/2 -translate-x-1/2 text-lg w-[90%] cursor-pointer bg-black text-white px-4 py-1 rounded-md z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                                    >
+                                        Added
+                                    </button>
+                                ) : (
+                                    <button
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            handleAddToCart(product._id);
+                                        }}
+                                        className="absolute bottom-2 left-1/2 -translate-x-1/2 text-lg w-[90%] cursor-pointer bg-black text-white px-4 py-1 rounded-md z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                                    >
+                                        Add to cart
+                                    </button>
+                                )
+                            ) : (
+                                <button
+                                    onClick={(e) => e.stopPropagation()}
+                                    className="absolute bottom-2 left-1/2 -translate-x-1/2 text-lg w-[90%] cursor-pointer bg-black text-white px-4 py-1 rounded-md z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                                >
+                                    Out of Stock
+                                </button>
+                            )}
                         </div>
 
                         <div className="p-4 text-sm">

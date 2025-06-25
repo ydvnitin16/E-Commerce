@@ -9,9 +9,11 @@ import {
     faBars,
 } from '@fortawesome/free-solid-svg-icons';
 import { useAuthStore } from '../stores/UseAuthStore.jsx';
+import useCartStore from '../stores/UseCartStore.jsx';
 
 const Navbar = () => {
     const user = useAuthStore((state) => state.user);
+    const count = useCartStore((state) => state.count);
 
     const [isNavOpen, setisNavOpen] = useState(false);
     const [isAuthOpen, setisAuthOpen] = useState(false);
@@ -63,10 +65,13 @@ const Navbar = () => {
                     >
                         <FontAwesomeIcon icon={faUser} size="lg" />
                     </button>
-                    <button className="relative text-gray-200 hover:text-gray-400 cursor-pointer">
+                    <button
+                        onClick={() => navigate('/cart')}
+                        className="relative text-gray-200 hover:text-gray-400 cursor-pointer"
+                    >
                         <FontAwesomeIcon icon={faBagShopping} size="lg" />
                         <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
-                            2
+                            {count}
                         </span>
                     </button>
 
@@ -91,7 +96,7 @@ const Navbar = () => {
                         className="w-full bg-red-500 hover:bg-red-600 text-white py-2 rounded"
                         onClick={() => {
                             setisAuthOpen(false);
-                            navigate('/user/logout')
+                            navigate('/user/logout');
                         }}
                     >
                         Logout
