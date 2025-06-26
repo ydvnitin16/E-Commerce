@@ -30,7 +30,13 @@ const placeOrder = async (req, res) => {
             totalPrice += product.price * quantity;
 
             validatedItems.push({
-                product: product._id,
+                product: {
+                    _id: product._id,
+                    name: product.name,
+                    description: product.description,
+                    image: product.image,
+                    price: product.price,
+                },
                 quantity,
             });
         }
@@ -56,12 +62,10 @@ const placeOrder = async (req, res) => {
 const userOrders = async (req, res) => {
     const { id } = req.user;
     try {
-        const orders = await Order.find({ userId: id }).populate(
-            'items.product'
-        );
+        const orders = await Order.find({ userId: id })
         if (!orders) return res.status(404).json({ message: 'No Orders' });
 
-        res.status(200).json({ message: 'Your Orders', data: orders });
+        res.status(200).json({ message: 'Your Orders', orders });
     } catch (error) {
         res.status(500).json({
             message: 'Server error, please try again later.',
@@ -72,11 +76,11 @@ const userOrders = async (req, res) => {
 // Admin -> get all orders to manage
 const allOrders = async (req, res) => {
     try {
-        const orders = await Order.find().populate('items.product');
+        const orders = await Order.find();
 
         if (!orders) return res.status(404).json({ message: 'No Orders' });
 
-        res.status(200).json({ message: 'User Orders', data: orders });
+        res.status(200).json({ message: 'User Orders', orders });
     } catch (error) {
         res.status(500).json({
             message: 'Server error, please try again later.',

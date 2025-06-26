@@ -5,8 +5,11 @@ import * as yup from 'yup';
 import useCartStore from '../../stores/UseCartStore';
 import { useNavigate } from 'react-router-dom';
 import {useHandleClearCart} from '../../utils/handlerFunctions.js'
+import { useQueryClient } from '@tanstack/react-query';
 
 const CheckoutPage = () => {
+    const queryClient = useQueryClient()
+
     const navigate = useNavigate();
     const cart = useCartStore((state) => state.cartIds); // this has the updated cart without out of stock product we use it
     const clearCart = useHandleClearCart()
@@ -68,7 +71,9 @@ const CheckoutPage = () => {
         }
         console.log(`Order Placed`)
         clearCart()
-        navigate('/')
+        queryClient.invalidateQueries(['orders'])
+        navigate('/order')
+
     };
 
     return (

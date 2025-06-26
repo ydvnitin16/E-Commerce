@@ -10,6 +10,7 @@ const Logout = () => {
             `${import.meta.env.VITE_SERVER_URL}/user/logout`,
             {
                 method: 'DELETE',
+                credentials: 'include',
                 headers: { 'Content-Type': 'application/json' },
             }
         );

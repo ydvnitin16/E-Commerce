@@ -15,6 +15,7 @@ import ProductList from './features/products/ProductList.jsx';
 import Logout from './features/auth/Logout.jsx';
 import CartPage from './features/cart/CartPage.jsx';
 import CheckoutPage from './features/cart/CheckoutPage.jsx';
+import MyOrdersPage from './features/orders/MyOrdersPage.jsx';
 
 const App = () => {
     const router = createBrowserRouter(
@@ -33,6 +34,9 @@ const App = () => {
                 <Route path="/cart" element={<MainLayout />}>
                     <Route index element={<CartPage />} />
                     <Route path="checkout" element={<CheckoutPage />} />
+                </Route>
+                <Route path="/order" element={<MainLayout />}>
+                    <Route index element={<MyOrdersPage />} />
                 </Route>
             </>
         )
