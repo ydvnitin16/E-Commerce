@@ -60,7 +60,7 @@ const ProductDetails = () => {
                             type="number"
                             defaultValue={1}
                             min={1}
-                            onChange={(e) => setQty(e.target.value)}
+                            onChange={(e) => setQty(Number(e.target.value))}
                             className="w-16 border rounded px-2 py-1"
                         />  }
                         {product.inStock ? (

@@ -11,7 +11,7 @@ const placeOrder = async (req, res) => {
 
         for (const item of items) {
             console.log(item);
-            const product = await Product.findById(item.product);
+            const product = await Product.findById(item.productId);
 
             if (!product)
                 return res.status(400).json({ message: 'Product not found' });

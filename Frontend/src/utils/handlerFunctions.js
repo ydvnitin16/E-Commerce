@@ -38,5 +38,15 @@ const useHandleUpdateQuantity = () => {
     };
     return handleUpdateQuantity
 };
+const useHandleClearCart = () => {
+    const queryClient = useQueryClient();
+    const clearCart = useCartStore((state) => state.clearCart);
 
-export { useHandleAddToCart, useHandleRemoveFromCart, useHandleUpdateQuantity };
+    const handleClearCart = () => {
+            clearCart();
+            queryClient.invalidateQueries({ queryKey: ['cart-products'] });
+    };
+    return handleClearCart
+};
+
+export { useHandleAddToCart, useHandleRemoveFromCart, useHandleUpdateQuantity, useHandleClearCart };

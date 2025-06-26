@@ -1,9 +1,11 @@
 import useCartStore from '../../stores/UseCartStore.jsx';
+import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { useHandleRemoveFromCart } from '../../utils/handlerFunctions.js';
 import { useHandleUpdateQuantity } from '../../utils/handlerFunctions.js';
 
 const CartPage = () => {
+    const navigate = useNavigate();
     const cartIds = useCartStore((state) => state.cartIds); // contains both id and qty
     const productIds = cartIds.map((item) => item.productId); // contains only ids
     const handleRemoveFromCart = useHandleRemoveFromCart();
@@ -46,27 +48,29 @@ const CartPage = () => {
     });
     const totalPrice = products ? calcTotalPrice(cartIds, products) : 0;
 
+    function checkout() {
+        let outOfStock = false;
+        products.forEach((product) => {
+            if (!product.inStock) {
+                console.log(
+                    'Please drop the out of stock products from your cart'
+                );
+                outOfStock = true;
+                return;
+            }
+        });
+        if (outOfStock) return;
+        navigate('/cart/checkout');
+    }
+
     return (
         <div className="min-h-screen bg-white flex flex-col items-center pt-30">
             {/* Title & Steps */}
-            <section className="text-center my-10">
-                <h1 className="text-3xl font-semibold">Cart</h1>
-                <div className="mt-6 flex justify-center space-x-4 text-sm">
-                    <div className="flex flex-col items-center">
-                        <div className="w-8 h-8 rounded-full bg-black text-white flex items-center justify-center">
-                            1
-                        </div>
-                        <span className="mt-1">Shopping cart</span>
-                    </div>
-                    <div className="flex flex-col items-center">
-                        <div className="w-8 h-8 rounded-full border">2</div>
-                        <span className="mt-1">Checkout details</span>
-                    </div>
-                    <div className="flex flex-col items-center">
-                        <div className="w-8 h-8 rounded-full border">3</div>
-                        <span className="mt-1">Order complete</span>
-                    </div>
+            <section className="text-center my-10 flex flex-col items-center gap-4">
+                <div className="w-8 h-8 rounded-full bg-black text-white flex items-center justify-center">
+                    1
                 </div>
+                <h1 className="text-3xl font-semibold">Shopping Cart</h1>
             </section>
 
             {/* Main Section */}
@@ -101,37 +105,47 @@ const CartPage = () => {
                                             ✖ Remove
                                         </button>
                                     </div>
-                                    <input
-                                        className="border p-1 font-medium w-15"
-                                        type="number"
-                                        min={1}
-                                        value={
-                                            cartIds.find(
-                                                (item) =>
-                                                    item.productId ===
-                                                    product._id
-                                            )?.quantity || 1
-                                        }
-                                        onChange={(e) =>
-                                            handleUpdateQuantity(
-                                                product._id,
-                                                Number(e.target.value)
-                                            )
-                                        }
-                                    />
-                                    <div className="text-right min-w-[60px]">
-                                        <p className="font-semibold">
-                                            ₹ {product.price}
+                                    {product.inStock ? (
+                                        <>
+                                            {' '}
+                                            <input
+                                                className="border p-1 font-medium w-15"
+                                                type="number"
+                                                min={1}
+                                                value={
+                                                    cartIds.find(
+                                                        (item) =>
+                                                            item.productId ===
+                                                            product._id
+                                                    )?.quantity || 1
+                                                }
+                                                onChange={(e) =>
+                                                    handleUpdateQuantity(
+                                                        product._id,
+                                                        Number(e.target.value)
+                                                    )
+                                                }
+                                            />
+                                            <div className="text-right min-w-[60px]">
+                                                <p className="font-semibold">
+                                                    ₹ {product.price}
+                                                </p>
+                                                <p className="text-sm text-gray-500">
+                                                    ₹{' '}
+                                                    {(cartIds.find(
+                                                        (item) =>
+                                                            item.productId ===
+                                                            product._id
+                                                    )?.quantity || 1) *
+                                                        product.price}
+                                                </p>
+                                            </div>
+                                        </>
+                                    ) : (
+                                        <p className="font-bold text-red-600 text-lg">
+                                            Out of Stock
                                         </p>
-                                        <p className="text-sm text-gray-500">
-                                            ₹{' '}
-                                            {(cartIds.find(
-                                                (item) =>
-                                                    item.productId ===
-                                                    product._id
-                                            )?.quantity || 1) * product.price}
-                                        </p>
-                                    </div>
+                                    )}
                                 </div>
                             ))}
                     </div>
@@ -172,7 +186,12 @@ const CartPage = () => {
                         </>
                     )}
 
-                    <button className="w-full bg-black text-white py-2 rounded hover:bg-gray-900 transition cursor-pointer">
+                    <button
+                        onClick={() => {
+                            checkout();
+                        }}
+                        className="w-full bg-black text-white py-2 rounded hover:bg-gray-900 transition cursor-pointer"
+                    >
                         Proceed to Checkout
                     </button>
                 </div>

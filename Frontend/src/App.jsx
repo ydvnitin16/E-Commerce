@@ -12,8 +12,9 @@ import ProductDetails from '../src/features/products/ProductDetails.jsx';
 import Login from './features/auth/Login.jsx';
 import Signup from './features/auth/Signup.jsx';
 import ProductList from './features/products/ProductList.jsx';
-import Logout from './features/auth/Logout.jsx'
+import Logout from './features/auth/Logout.jsx';
 import CartPage from './features/cart/CartPage.jsx';
+import CheckoutPage from './features/cart/CheckoutPage.jsx';
 
 const App = () => {
     const router = createBrowserRouter(
@@ -29,8 +30,9 @@ const App = () => {
                     <Route path="signup" element={<Signup />} />
                     <Route path="logout" element={<Logout />} />
                 </Route>
-                <Route path='/cart' element={<MainLayout />}>
+                <Route path="/cart" element={<MainLayout />}>
                     <Route index element={<CartPage />} />
+                    <Route path="checkout" element={<CheckoutPage />} />
                 </Route>
             </>
         )

@@ -48,6 +48,9 @@ const useCartStore = create(
                     });
                 }
             },
+            clearCart: () => {
+                set({cartIds: [], count: 0})
+            }
         }),
         { name: 'cart-storage' }
     )
