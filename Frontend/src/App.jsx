@@ -16,6 +16,11 @@ import Logout from './features/auth/Logout.jsx';
 import CartPage from './features/cart/CartPage.jsx';
 import CheckoutPage from './features/cart/CheckoutPage.jsx';
 import MyOrdersPage from './features/orders/MyOrdersPage.jsx';
+import AdminLayout from './layouts/AdminLayout.jsx';
+import AdminDashboard from './pages/admin/AdminDashboard.jsx'
+import AdminAddProduct from './pages/admin/AdminAddProduct.jsx'
+import AdminProductsPage from './pages/admin/AdminProductsPage.jsx'
+import AdminOrdersPage from './pages/admin/AdminOrdersPage.jsx'
 
 const App = () => {
     const router = createBrowserRouter(
@@ -37,6 +42,12 @@ const App = () => {
                 </Route>
                 <Route path="/order" element={<MainLayout />}>
                     <Route index element={<MyOrdersPage />} />
+                </Route>
+                <Route path="/admin" element={<AdminLayout />}>
+                    <Route index element={<AdminDashboard />} />
+                    <Route path="products" element={<AdminProductsPage />} />
+                    <Route path="products/add" element={<AdminAddProduct />} />
+                    <Route path="orders" element={<AdminOrdersPage />} />
                 </Route>
             </>
         )
