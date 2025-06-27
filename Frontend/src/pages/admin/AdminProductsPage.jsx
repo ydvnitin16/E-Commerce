@@ -1,8 +1,9 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import React, { useState } from 'react';
+import React from 'react';
 
 const AdminProductsPage = () => {
     const queryClient = useQueryClient();
+
     const {
         data: products,
         isLoading,
@@ -21,9 +22,7 @@ const AdminProductsPage = () => {
     const mutation = useMutation({
         mutationFn: async (item) => {
             await fetch(
-                `${import.meta.env.VITE_SERVER_URL}/admin/product/${
-                    item.productId
-                }`,
+                `${import.meta.env.VITE_SERVER_URL}/admin/product/${item.productId}`,
                 {
                     method: 'PUT',
                     credentials: 'include',
@@ -44,12 +43,12 @@ const AdminProductsPage = () => {
 
     return (
         <div className="p-6 space-y-8">
-            <h1 className="text-3xl font-bold text-blue-600">All Products</h1>
+            <h1 className="text-3xl font-bold text-blue-600 dark:text-blue-400">All Products</h1>
 
             {/* Product Table */}
             <div className="overflow-x-auto">
-                <table className="min-w-full border bg-white rounded shadow">
-                    <thead className="bg-blue-50 text-sm text-blue-700 uppercase">
+                <table className="min-w-full border bg-white dark:bg-gray-800 rounded shadow dark:border-gray-700">
+                    <thead className="bg-blue-50 dark:bg-gray-700 text-sm text-blue-700 dark:text-blue-300 uppercase">
                         <tr>
                             <th className="p-3 text-left">Image</th>
                             <th className="p-3 text-left">Name</th>
@@ -63,20 +62,24 @@ const AdminProductsPage = () => {
                             products.map((product) => (
                                 <tr
                                     key={product._id}
-                                    className="border-t hover:bg-gray-50"
+                                    className="border-t dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition"
                                 >
                                     <td className="p-3">
                                         <img
                                             src={product.image}
                                             alt="Product"
-                                            className="w-12 h-12 object-cover rounded"
+                                            className="w-12 h-12 object-cover rounded border dark:border-gray-600"
                                         />
                                     </td>
-                                    <td className="p-3 font-medium">
+                                    <td className="p-3 font-medium text-gray-800 dark:text-gray-100">
                                         {product.name}
                                     </td>
-                                    <td className="p-3">₹{product.price}</td>
-                                    <td className="p-3">{product.category}</td>
+                                    <td className="p-3 text-gray-700 dark:text-gray-300">
+                                        ₹{product.price}
+                                    </td>
+                                    <td className="p-3 text-gray-700 dark:text-gray-300">
+                                        {product.category}
+                                    </td>
                                     <td className="p-3">
                                         <button
                                             onClick={() =>
@@ -85,11 +88,11 @@ const AdminProductsPage = () => {
                                                     product.inStock
                                                 )
                                             }
-                                            className={`px-3 py-1 rounded font-medium ${
+                                            className={`px-3 py-1 rounded font-medium transition ${
                                                 product.inStock
-                                                    ? 'bg-green-500 text-white cursor-pointer'
-                                                    : 'bg-red-500 text-white cursor-pointer'
-                                            }`}
+                                                    ? 'bg-green-500 hover:bg-green-600'
+                                                    : 'bg-red-500 hover:bg-red-600'
+                                            } text-white cursor-pointer`}
                                         >
                                             {product.inStock
                                                 ? 'In Stock'
