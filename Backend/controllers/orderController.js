@@ -76,7 +76,7 @@ const userOrders = async (req, res) => {
 // Admin -> get all orders to manage
 const allOrders = async (req, res) => {
     try {
-        const orders = await Order.find();
+        const orders = await Order.find().populate('userId', 'name email');
 
         if (!orders) return res.status(404).json({ message: 'No Orders' });
 
@@ -99,8 +99,8 @@ const updateStatus = async (req, res) => {
     ];
     const { status } = req.body;
     try {
-        console.log(`entered`);
-        const order = await Order.findById(id).populate('items.product');
+        console.log(`id: ${id}, status: ${status}`);
+        const order = await Order.findById(id)
         console.log(order.items[0].product._id);
         if (!order)
             return res.status(404).json({
@@ -111,7 +111,7 @@ const updateStatus = async (req, res) => {
             return res.status(404).json({
                 message: 'Please select valid status',
             });
-
+            
         if (status === 'delivered') {
             for (let item of order.items) {
                 try {

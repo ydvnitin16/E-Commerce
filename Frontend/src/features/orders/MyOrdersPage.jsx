@@ -58,7 +58,7 @@ const MyOrdersPage = () => {
                                 </p>
                             </div>
                             <div className="mt-2 md:mt-0">
-                                <span className="inline-block px-3 py-1 text-sm rounded-full bg-yellow-100 text-yellow-700 font-medium">
+                                <span className={`inline-block px-3 py-1 text-sm rounded-full font-medium ${order.status === 'delivered' ? 'bg-green-500 text-white' : 'bg-yellow-100 text-yellow-700'}`}>
                                     {order.status}
                                 </span>
                             </div>
