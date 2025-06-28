@@ -11,7 +11,6 @@ const storage = new CloudinaryStorage({
     cloudinary,
     params: {
         folder: 'E-Commerce',
-        allowed_formats: ['jpg', 'png', 'jpeg'],
     },
 });
 
