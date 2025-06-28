@@ -62,7 +62,7 @@ const placeOrder = async (req, res) => {
 const userOrders = async (req, res) => {
     const { id } = req.user;
     try {
-        const orders = await Order.find({ userId: id })
+        const orders = await Order.find({ userId: id });
         if (!orders) return res.status(404).json({ message: 'No Orders' });
 
         res.status(200).json({ message: 'Your Orders', orders });
@@ -99,8 +99,7 @@ const updateStatus = async (req, res) => {
     ];
     const { status } = req.body;
     try {
-        console.log(`id: ${id}, status: ${status}`);
-        const order = await Order.findById(id)
+        const order = await Order.findById(id);
         console.log(order.items[0].product._id);
         if (!order)
             return res.status(404).json({
@@ -111,12 +110,11 @@ const updateStatus = async (req, res) => {
             return res.status(404).json({
                 message: 'Please select valid status',
             });
-            
+
         if (status === 'delivered') {
             for (let item of order.items) {
                 try {
                     const id = item.product._id;
-                    console.log(`Updating Sold Items`);
                     const product = await Product.findById(id);
                     product.itemSold = product.itemSold + item.quantity;
                     product.save();
