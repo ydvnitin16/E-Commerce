@@ -22,7 +22,7 @@ const ProductCard = ({ products }) => {
                         <div
                             className="relative h-40 bg-cover bg-gray-200 bg-center group"
                             style={{
-                                backgroundImage: `url(${product.image})`,
+                                backgroundImage: `url(${product.image.url})`,
                             }}
                         >
                             {((new Date(product.createdAt) - new Date()) /

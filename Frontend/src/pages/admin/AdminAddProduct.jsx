@@ -72,7 +72,6 @@ const AdminAddProduct = () => {
 
       const resData = await res.json();
       if (res.ok) {
-        alert('Product added successfully!');
         reset();
         setImagePreview(null);
         toast.success('Product Added')

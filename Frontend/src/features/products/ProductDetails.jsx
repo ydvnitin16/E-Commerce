@@ -41,7 +41,7 @@ const ProductDetails = () => {
             <section className="pt-35 grid md:grid-cols-2 gap-8 px-6 py-12 max-w-7xl mx-auto">
                 <div className="rounded-2xl overflow-hidden bg-gray-200">
                     <img
-                        src={product.image}
+                        src={product.image.url}
                         className="w-full h-full object-cover"
                     />
                 </div>

@@ -3,14 +3,19 @@ import Product from '../models/Products.js';
 // Admin -> Add product
 const addProduct = async (req, res) => {
     const { name, description, price, category, inStock } = req.body;
-    const imagePath = req.file.path;
+
+    const image = {
+        url: req.file.path,
+        public_id: req.file.filename
+    }
+    
     try {
         const product = await Product({
             name,
             description,
             price: Number(price),
             category,
-            image: imagePath,
+            image: image,
             inStock: inStock,
         });
 

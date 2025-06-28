@@ -95,7 +95,7 @@ const CartPage = () => {
                                     className="flex gap-4 items-start border-b pb-4"
                                 >
                                     <img
-                                        src={product.image}
+                                        src={product.image.url}
                                         alt="Product"
                                         className="w-16 h-16 object-cover"
                                     />

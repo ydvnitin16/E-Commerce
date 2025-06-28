@@ -69,7 +69,7 @@ const AdminProductsPage = () => {
                                 >
                                     <td className="p-3">
                                         <img
-                                            src={product.image}
+                                            src={product.image.url}
                                             alt="Product"
                                             className="w-12 h-12 object-cover rounded border dark:border-gray-600"
                                         />

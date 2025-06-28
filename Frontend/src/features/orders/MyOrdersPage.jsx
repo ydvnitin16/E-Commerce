@@ -33,6 +33,8 @@ const MyOrdersPage = () => {
         return address;
     }
 
+    console.log(orders)
+
 
     return (
         <div className="min-h-screen bg-white py-10 px-4 md:px-10 pt-30">
@@ -74,7 +76,7 @@ const MyOrdersPage = () => {
                                 >
                                     <div className="flex items-center gap-4">
                                         <img
-                                            src={item.product.image}
+                                            src={item.product.image.url}
                                             alt="Product"
                                             className="w-14 h-14 object-cover rounded"
                                         />
