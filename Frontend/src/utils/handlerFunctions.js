@@ -1,3 +1,4 @@
+import toast from 'react-hot-toast';
 import useCartStore from '../stores/UseCartStore.jsx';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 
@@ -8,6 +9,7 @@ const useHandleAddToCart = () => {
         if (productId) {
             addToCart(productId, quantity);
             queryClient.invalidateQueries({ queryKey: ['cart-products'] });
+            toast.success('Product Added')
         }
     };
     return handleAddToCart;
@@ -21,6 +23,7 @@ const useHandleRemoveFromCart = () => {
         if (productId) {
             removeFromCart(productId);
             queryClient.invalidateQueries({ queryKey: ['cart-products'] });
+            toast.success('Product Removed')
         }
     };
     return handleRemoveFromCart;
@@ -34,6 +37,7 @@ const useHandleUpdateQuantity = () => {
         if (productId && quantity) {
             updateQuantity(productId, quantity);
             queryClient.invalidateQueries({ queryKey: ['cart-products'] });
+            toast.success('Product Quantity Updated')
         }
     };
     return handleUpdateQuantity

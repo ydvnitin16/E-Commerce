@@ -5,6 +5,7 @@ import {
     Route,
     RouterProvider,
 } from 'react-router';
+import { Toaster } from 'react-hot-toast';
 
 import MainLayout from './layouts/MainLayout.jsx';
 import Home from './pages/Home.jsx';
@@ -25,6 +26,9 @@ import {
     ProtectedAdminRoutes,
     ProtectedAuthRoutes,
 } from './features/ProtectedRoutes.jsx';
+import NotFound from './components/NotFound.jsx';
+import ErrorBoundary from './pages/ErrorBoundaries.jsx';
+import ErrorFallback from './components/ErrorFallback.jsx';
 
 const App = () => {
     const router = createBrowserRouter(
@@ -83,13 +87,19 @@ const App = () => {
                     <Route path="products/add" element={<AdminAddProduct />} />
                     <Route path="orders" element={<AdminOrdersPage />} />
                 </Route>
+
+                {/* NOT FOUND */}
+                <Route path="*" element={<NotFound />} />
             </>
         )
     );
 
     return (
         <>
-            <RouterProvider router={router} />
+            <Toaster position="top-center" />
+            <ErrorBoundary fallback={<ErrorFallback />}>
+                <RouterProvider router={router} />
+            </ErrorBoundary>
         </>
     );
 };

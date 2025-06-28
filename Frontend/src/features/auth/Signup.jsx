@@ -1,12 +1,14 @@
 // Signup.jsx
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import bgImage from '../.././assets/Hero.jpg';
+import toast from 'react-hot-toast';
 
 const Signup = () => {
+    const navigate = useNavigate()
     const schema = yup.object({
         name: yup.string().trim().required('Name is required'),
         email: yup
@@ -41,8 +43,14 @@ const Signup = () => {
             body: JSON.stringify(form),
         })
         const resData = await res.json()
-        console.log(resData)
-        reset();
+        if(res.ok){
+            reset()
+            toast.success(resData.message)
+            navigate('/user/login')
+            toast('Now login Here')
+            return;
+        }
+        toast.error('Email already exists!')
     };
 
     return (

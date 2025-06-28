@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import toast from 'react-hot-toast';
 
 const categories = [
   'Smartphones',
@@ -74,12 +75,12 @@ const AdminAddProduct = () => {
         alert('Product added successfully!');
         reset();
         setImagePreview(null);
+        toast.success('Product Added')
       } else {
-        alert(resData?.message || 'Something went wrong!');
+        toast.error(resData?.message || 'Something went wrong!');
       }
     } catch (err) {
-      console.error(err);
-      alert('Error while uploading product.');
+      toast.error('Error while uploading product.');
     }
   };
 

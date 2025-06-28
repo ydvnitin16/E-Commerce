@@ -6,6 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import bgImage from '../.././assets/Hero.jpg';
 import { useState } from 'react';
 import { useAuthStore } from '../../stores/UseAuthStore.jsx';
+import toast from 'react-hot-toast';
 
 const Login = () => {
     const navigate = useNavigate();
@@ -36,8 +37,6 @@ const Login = () => {
     });
 
     const userLogin = async (data) => {
-        console.log(`Form State : `, form);
-
         const res = await fetch(
             `${import.meta.env.VITE_SERVER_URL}/user/login`,
             {
@@ -51,11 +50,15 @@ const Login = () => {
         const resData = await res.json();
         if (res.ok) {
             storeLogin(resData.user);
-            navigate('/')
+            if (resData.user.role === 'admin') navigate('/admin');
+
+            if (resData.user.role !== 'admin') navigate('/');
+
+            toast.success('Login Successful!');
+            reset();
+            return;
         }
-        console.log(res.data)
-        reset();
-        
+        toast.error('Email not exists!');
     };
 
     return (

@@ -6,6 +6,8 @@ import useCartStore from '../../stores/UseCartStore';
 import { useNavigate } from 'react-router-dom';
 import {useHandleClearCart} from '../../utils/handlerFunctions.js'
 import { useQueryClient } from '@tanstack/react-query';
+import toast from 'react-hot-toast'
+
 
 const CheckoutPage = () => {
     const queryClient = useQueryClient()
@@ -66,10 +68,10 @@ const CheckoutPage = () => {
         });
         const resData = await res.json();
         if (!res.ok) {
-            console.log(`Not placed`);
+            toast.error('Something went wrong')
             return;
         }
-        console.log(`Order Placed`)
+        toast.success('Order Placed.')
         clearCart()
         queryClient.invalidateQueries(['orders'])
         navigate('/order')

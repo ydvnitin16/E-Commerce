@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import React from 'react';
+import toast from 'react-hot-toast';
 
 const AdminProductsPage = () => {
     const queryClient = useQueryClient();
@@ -33,8 +34,9 @@ const AdminProductsPage = () => {
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['admin-products'] });
+            toast.success('Stock Updated')
         },
-        onError: (error) => console.log('error: ', error),
+        onError: (error) => toast.error('Something went wrong'),
     });
 
     function updateStock(productId, currentStock) {

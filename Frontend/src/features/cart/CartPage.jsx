@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { useHandleRemoveFromCart } from '../../utils/handlerFunctions.js';
 import { useHandleUpdateQuantity } from '../../utils/handlerFunctions.js';
+import toast from 'react-hot-toast';
 
 const CartPage = () => {
     const navigate = useNavigate();
@@ -50,16 +51,19 @@ const CartPage = () => {
 
     function checkout() {
         let outOfStock = false;
+        if(!products || !products.length > 0){
+            return toast.error('Cart it empty')
+        }
         products.forEach((product) => {
             if (!product.inStock) {
-                console.log(
-                    'Please drop the out of stock products from your cart'
-                );
                 outOfStock = true;
                 return;
             }
         });
-        if (outOfStock) return;
+        if (outOfStock) {
+            toast.error('Please remove out of stock items')
+            return;
+        }
         navigate('/cart/checkout');
     }
 

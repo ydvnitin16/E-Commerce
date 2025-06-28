@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import OrderDetailsModal from '../../components/OrderDetailsModal';
+import toast from 'react-hot-toast';
 
 const AdminOrdersPage = () => {
     const queryClient = useQueryClient()
@@ -24,7 +25,6 @@ const AdminOrdersPage = () => {
                 }
             );
             const data = await res.json();
-            console.log(data);
             return data.orders;
         },
     });
@@ -50,8 +50,9 @@ const AdminOrdersPage = () => {
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['admin-orders'] });
+            toast.success(`Status Updated!`)
         },
-        onError: (error) => console.log('error: ', error),
+        onError: (error) => toast.error('Something went wrong'),
     });
 
     function updateStatus(orderId, status) {
@@ -120,7 +121,6 @@ const AdminOrdersPage = () => {
                                                 </p>
 
                                                 <select
-                                                    value={selectedOrder.status}
                                                     onChange={(e) =>
                                                         setStatus(
                                                             e.target.value
@@ -146,17 +146,16 @@ const AdminOrdersPage = () => {
                                                 </select>
 
                                                 <button
-                                                    onClick={() =>
+                                                    onClick={() =>{
                                                         updateStatus(
                                                             selectedOrder._id,
                                                             status
                                                         )
+                                                        setUpdateModal(false)}
                                                     }
                                                     className="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded font-semibold transition"
                                                 >
-                                                    {true
-                                                        ? 'Updating...'
-                                                        : 'Update Status'}
+                                                    Update
                                                 </button>
                                             </div>
                                         </div>
