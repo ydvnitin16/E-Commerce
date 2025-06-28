@@ -58,7 +58,7 @@ const Login = () => {
             reset();
             return;
         }
-        toast.error('Email not exists!');
+        toast.error('Invalid Credentials!');
     };
 
     return (

@@ -53,8 +53,8 @@ const CartPage = () => {
 
     function checkout() {
         let outOfStock = false;
-        if(!products || !products.length > 0){
-            return toast.error('Cart it empty')
+        if (!products || !products.length > 0) {
+            return toast.error('Cart it empty');
         }
         products.forEach((product) => {
             if (!product.inStock) {
@@ -63,7 +63,7 @@ const CartPage = () => {
             }
         });
         if (outOfStock) {
-            toast.error('Please remove out of stock items')
+            toast.error('Please remove out of stock items');
             return;
         }
         navigate('/cart/checkout');
@@ -84,7 +84,11 @@ const CartPage = () => {
                 {/* Product List */}
                 <div className="flex-1">
                     <div className="space-y-6">
-                        {isLoading && <Loading /> || products ?
+                        {isLoading ? (
+                            <Loading />
+                        ) : error ? (
+                            <ErrorModal msg="Something went wrong!" />
+                        ) : !Array.isArray(products) || products.length === 0 ? <ErrorModal msg="Cart is Empty!" /> : (
                             products.map((product, index) => (
                                 <div
                                     key={product._id}
@@ -153,7 +157,8 @@ const CartPage = () => {
                                         </p>
                                     )}
                                 </div>
-                            )) : <ErrorModal msg='Cart is Empty' />}
+                            ))
+                        )}
                     </div>
 
                     {/* Coupon */}

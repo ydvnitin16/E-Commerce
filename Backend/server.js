@@ -16,7 +16,7 @@ connectDB();
 // Middlewares
 app.use(
         cors({
-            origin: 'http://localhost:5173',
+            origin: 'http://192.168.31.148:5173',
             credentials: true, // 👈 Tell server i accept your cookies
         })
 );
