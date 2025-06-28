@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import React from 'react';
 import toast from 'react-hot-toast';
+import Loading from '../../components/Loading';
 
 const AdminProductsPage = () => {
     const queryClient = useQueryClient();
@@ -60,7 +61,7 @@ const AdminProductsPage = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {products &&
+                        {isLoading && <Loading /> || products &&
                             products.map((product) => (
                                 <tr
                                     key={product._id}

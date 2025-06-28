@@ -1,5 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import React from 'react';
+import ErrorModal from '../../components/ErrorModal.jsx';
+import Loading from '../../components/Loading.jsx';
 
 const MyOrdersPage = () => {
     const {
@@ -31,14 +33,13 @@ const MyOrdersPage = () => {
         return address;
     }
 
-    orders && console.log(orders);
 
     return (
         <div className="min-h-screen bg-white py-10 px-4 md:px-10 pt-30">
             <h1 className="text-3xl font-bold text-center mb-10">My Orders</h1>
 
             <div className="space-y-8 max-w-5xl mx-auto">
-                {orders?.map((order, idx) => (
+                {isLoading && <Loading /> || (orders?.length > 0) ?  orders?.map((order, idx) => (
                     <div
                         key={idx}
                         className="border rounded-lg shadow-sm p-6 bg-gray-50"
@@ -111,7 +112,7 @@ const MyOrdersPage = () => {
                             </p>
                         </div>
                     </div>
-                ))}
+                )) : <ErrorModal msg='No Orders Yet' />}
             </div>
         </div>
     );

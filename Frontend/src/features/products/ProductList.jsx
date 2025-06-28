@@ -4,6 +4,8 @@ import { useSearchParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 
 import ProductCard from '../../components/ProductCard';
+import Loading from '../../components/Loading';
+import ErrorModal from '../../components/ErrorModal';
 
 const ProductList = () => {
     const [searchParams] = useSearchParams(); // used to get query from the url
@@ -75,9 +77,9 @@ const ProductList = () => {
 
                 {/* Product Grid */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-6">
-                    {products && products.length > 0 && (
+                    { isLoading && <Loading /> || products && products.length > 0 && (
                         <ProductCard products={products} />
-                    )}
+                    ) || <ErrorModal msg='No Products Found' />}
                 </div>
                 {/* Pagination */}
                 <div className="flex justify-center mt-6 gap-4 items-center">

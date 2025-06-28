@@ -4,6 +4,8 @@ import { useQuery } from '@tanstack/react-query';
 import { useHandleRemoveFromCart } from '../../utils/handlerFunctions.js';
 import { useHandleUpdateQuantity } from '../../utils/handlerFunctions.js';
 import toast from 'react-hot-toast';
+import Loading from '../../components/Loading.jsx';
+import ErrorModal from '../../components/ErrorModal.jsx';
 
 const CartPage = () => {
     const navigate = useNavigate();
@@ -82,7 +84,7 @@ const CartPage = () => {
                 {/* Product List */}
                 <div className="flex-1">
                     <div className="space-y-6">
-                        {products &&
+                        {isLoading && <Loading /> || products ?
                             products.map((product, index) => (
                                 <div
                                     key={product._id}
@@ -151,7 +153,7 @@ const CartPage = () => {
                                         </p>
                                     )}
                                 </div>
-                            ))}
+                            )) : <ErrorModal msg='Cart is Empty' />}
                     </div>
 
                     {/* Coupon */}

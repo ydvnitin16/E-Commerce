@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import OrderDetailsModal from '../../components/OrderDetailsModal';
 import toast from 'react-hot-toast';
+import Loading from '../../components/Loading.jsx'
 
 const AdminOrdersPage = () => {
     const queryClient = useQueryClient()
@@ -78,7 +79,7 @@ const AdminOrdersPage = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {orders &&
+                    {isLoading && <Loading /> || orders &&
                         orders.map((order, idx) => (
                             <tr
                                 key={order._id}
