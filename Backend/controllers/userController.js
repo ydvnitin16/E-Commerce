@@ -65,8 +65,8 @@ const loginUser = async (req, res) => {
 
         res.cookie('authHeader', `Bearer ${token}`, {
             httpOnly: true, // sent only to http
-            secure: process.env.NODE_ENV === 'production', // cookie only set to the https
-            sameSite: 'lax', // accessed by same domain
+            secure: true, // cookie only set to the https
+            sameSite: 'none', // accessed by same domain
             maxAge: 3 * 24 * 60 * 60 * 1000, // Expires in 3 Days
         });
 
