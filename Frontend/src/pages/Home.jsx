@@ -18,6 +18,7 @@ import smartwatchImage from '../assets/Watch.png';
 import computerAccessoriesImage from '../assets/AccessoriesImage.webp';
 import { UseHomeProducts } from '../stores/UseHomeProduct';
 import ProductCard from '../components/ProductCard.jsx';
+import Loading from '../components/Loading.jsx';
 
 const Home = () => {
     const navigate = useNavigate();
@@ -111,7 +112,7 @@ const Home = () => {
             <section className=" py-15 md:px-20 px-5 mx-auto">
                 <h2 className="text-3xl font-semibold mb-8">New Arrivals</h2>
                 <div className='flex overflow-x-scroll'>
-                    <ProductCard products={homeLatestProducts} />
+                    {!loaded && <Loading /> || <ProductCard products={homeLatestProducts} />} 
                 </div>
                 {/* You can use a <ProductCard /> component here later */}
             </section>
@@ -193,7 +194,7 @@ const Home = () => {
                     Best Seller Products
                 </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-                   <ProductCard products={homeBestSellerProducts} />
+                   {!loaded && <Loading /> || <ProductCard products={homeBestSellerProducts} />} 
                 </div>
             </section> 
 
