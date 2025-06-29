@@ -16,7 +16,7 @@ connectDB();
 // Middlewares
 app.use(
         cors({
-            origin: 'http://192.168.31.148:5173',
+            origin: 'https://technest-commerce.onrender.com',
             credentials: true, // 👈 Tell server i accept your cookies
         })
 );
