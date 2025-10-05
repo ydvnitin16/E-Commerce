@@ -52,6 +52,16 @@ const Navbar = () => {
                             {link.name}
                         </NavLink>
                     ))}
+                    {(user && user?.role === 'admin') && <NavLink
+                            to='/admin'
+                            className={({ isActive }) =>
+                                `text-gray-200 font-bold text-lg hover:text-gray-400 ${
+                                    isActive ? 'font-semibold text-black' : ''
+                                }`
+                            }
+                        >
+                            Admin DashBoard
+                        </NavLink>}
                 </nav>
 
                 {/* Icons */}
