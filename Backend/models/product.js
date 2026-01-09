@@ -10,35 +10,31 @@ const productSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
-        image: {
-            url: { type: String, required: true },
-            public_id: { type: String, required: true },
-        },
         price: {
             type: Number,
             required: true,
             min: 1,
         },
-        category: {
-            type: String,
-            enum: [
-                'Smartphones',
-                'Laptops',
-                'Earbuds & Headphones',
-                'Smartwatches',
-                'Televisions',
-                'Cameras',
-                'Gaming Devices',
-                'Home Appliances',
-                'Computer Accessories',
+        image: {
+            type: [
+                {
+                    url: { type: String, required: true },
+                    public_id: { type: String, required: true },
+                },
             ],
+            required: true,
+        },
+        storeId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Store',
             required: true,
         },
         inStock: {
             type: Boolean,
+            required: true,
             default: true,
         },
-        itemSold: {
+        sold: {
             type: Number,
             default: 0,
         },
