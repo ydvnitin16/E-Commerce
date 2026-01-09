@@ -1,4 +1,5 @@
 import moongoose from 'mongoose';
+
 const addressSchema = new moongoose.Schema({
     name: { type: String, required: true },
     email: { type: String, required: true },
@@ -16,4 +17,5 @@ const addressSchema = new moongoose.Schema({
 });
 
 const Address = moongoose.model('Address', addressSchema);
+
 export default Address;
