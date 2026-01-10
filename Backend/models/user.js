@@ -7,8 +7,11 @@ const userSchema = new mongoose.Schema(
             required: true,
         },
         image: {
-            url: { type: String, required: true },
-            public_id: { type: String, required: true },
+            type: {
+                url: { type: String, required: true },
+                public_id: { type: String, required: true },
+            },
+            default: null,
         },
         email: {
             type: String,
@@ -22,7 +25,7 @@ const userSchema = new mongoose.Schema(
         role: {
             type: String,
             enum: ['CUSTOMER', 'VENDOR', 'ADMIN'],
-            default: 'USER',
+            default: 'CUSTOMER',
         },
     },
     { timestamps: true }
