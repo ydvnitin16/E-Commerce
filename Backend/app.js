@@ -4,35 +4,35 @@ import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 
 import connectDB from './config/database.js';
-import adminRoutes from './routes/adminRoutes.js';
-import userRoutes from './routes/userRoutes.js';
-import productRoutes from './routes/productRoutes.js';
-import orderRoutes from './routes/orderRoutes.js';
+import adminRoutes from './routes/admin.routes.js';
+import userRoutes from './routes/auth.routes.js';
+import productRoutes from './routes/product.routes.js';
+import orderRoutes from './routes/order.routes.js';
+import { errorHandler } from './middlewares/error.middleware.js';
 
 const app = express();
 dotenv.config();
 connectDB();
 
-// Middlewares
+// Global Middlewares
 app.use(
-        cors({
-            origin: 'https://technest-commerce.onrender.com',
-            credentials: true, // 👈 Tell server i accept your cookies
-        })
+    cors({
+        origin: process.env.VITE_SERVER_URL,
+        credentials: true,
+    })
 );
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 
 // Routes
-app.use('/', productRoutes);
 app.use('/user', userRoutes);
+app.use('/', productRoutes);
 app.use('/admin', adminRoutes);
 app.use('/orders', orderRoutes);
+app.use(errorHandler);
 
-// Run Server On Port
 const PORT = process.env.PORT || 3000;
-
 app.listen(PORT, () => {
-    console.log(`Server is running at http://localhost:3000`);
+    console.log(`Server is running at http://localhost:${PORT}`);
 });
