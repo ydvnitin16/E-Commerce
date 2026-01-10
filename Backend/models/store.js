@@ -16,7 +16,7 @@ const storeSchema = new mongoose.Schema({
         default: 'PENDING',
     },
     address: { type: String, required: true },
-    isActive: { type: Boolean, required: true, default: true },
+    isActive: { type: Boolean, required: true, default: false },
     image: {
         type: {
             url: { type: String, required: true },
