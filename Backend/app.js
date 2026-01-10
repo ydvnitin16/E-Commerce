@@ -8,7 +8,7 @@ import adminRoutes from './routes/admin.routes.js';
 import userRoutes from './routes/auth.routes.js';
 import productRoutes from './routes/product.routes.js';
 import orderRoutes from './routes/order.routes.js';
-import { errorHandler } from './middlewares/error.middleware.js';
+import { errorHandler } from './middlewares/error.middlewares.js';
 
 const app = express();
 dotenv.config();
@@ -24,7 +24,7 @@ app.use(
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
-
+auth
 // Routes
 app.use('/user', userRoutes);
 app.use('/', productRoutes);

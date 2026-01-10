@@ -5,7 +5,7 @@ import ApiSuccess from '../utils/apiSuccess.js';
 import ApiError from '../utils/apiError.js';
 
 // Register User
-const registerUser = async (req, res) => {
+export const registerUser = async (req, res) => {
     const { name, email, password } = req.body;
 
     const hashPwd = await bcrypt.hash(password, 10);
@@ -21,7 +21,7 @@ const registerUser = async (req, res) => {
 };
 
 // Login User
-const loginUser = async (req, res) => {
+export const loginUser = async (req, res) => {
     const { email, password } = req.body;
 
     const user = await getUserService({ email });
@@ -43,9 +43,7 @@ const loginUser = async (req, res) => {
 };
 
 // Logout User
-const logoutUser = (req, res) => {
+export const logoutUser = (req, res) => {
     res.clearCookie('authHeader');
     ApiSuccess(res, 200, 'Logout successfull');
 };
-
-export { registerUser, loginUser, logoutUser };
