@@ -28,6 +28,6 @@ const storeSchema = new mongoose.Schema({
     contact: { type: String, required: true },
 });
 
-const Store = mongoose.model('Order', storeSchema);
+const Store = mongoose.model('Store', storeSchema);
 
 export default Store;
