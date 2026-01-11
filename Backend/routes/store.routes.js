@@ -1,7 +1,7 @@
 import express from 'express';
-import { allowedRoles, auth } from '../middlewares/auth.middlewares.js';
+import { auth } from '../middlewares/auth.middlewares.js';
 import { validateCreateStoreForm } from '../middlewares/validate/store.validate.js';
-import { createStoreRequest, getStores, updateStoreStatus } from '../controllers/store.controllers.js';
+import { createStoreRequest } from '../controllers/store.controllers.js';
 
 const router = express.Router();
 
@@ -11,9 +11,5 @@ router.post(
     validateCreateStoreForm,
     createStoreRequest
 );
-
-router.put('/:storeId/status', auth, allowedRoles('ADMIN'), updateStoreStatus);
-router.get('/stores', auth, allowedRoles('ADMIN'), getStores)
-
 
 export default router;
