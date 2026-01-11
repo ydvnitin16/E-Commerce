@@ -16,10 +16,12 @@ export const createStore = async ({
 
     const store = await Store.create({
         name,
-        description,
+        description: description || '',
         slug,
         userId,
-        image,
+        status: 'PENDING',
+        image: image || null,
+        isActive: true,
         address,
         email,
         contact,
