@@ -52,3 +52,8 @@ export const updateStoreStatusService = async ({ storeId, status }) => {
 
     return updatedStore;
 };
+
+export const getStoresService = async () => {
+    const stores = await Store.find();
+    return stores || [];
+};
