@@ -1,6 +1,6 @@
 import ApiError from '../../utils/apiError.js';
 
-const validateUserForm = (type = 'register') => {
+export const validateUserForm = (type = 'register') => {
     return (req, res, next) => {
         const { name, email, password } = req.body;
 
@@ -20,5 +20,3 @@ const validateUserForm = (type = 'register') => {
         next();
     };
 };
-
-export { validateUserForm };
