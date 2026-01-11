@@ -16,11 +16,12 @@ export const auth = async (req, res, next) => {
     }
 };
 
-export const isAdmin = (req, res, next) => {
-    const { role } = req.user;
-
-    if (role !== 'admin')
+export const allowedRoles = (...roles) => {
+    return (req, res, next) => {
+        const userRole = req.user.role;
+        if (roles.includes(userRole)) {
+            return next();
+        }
         throw new ApiError(403, 'You have no permission to access this page');
-
-    next();
+    };
 };
