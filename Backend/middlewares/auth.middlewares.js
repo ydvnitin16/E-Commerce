@@ -22,6 +22,6 @@ export const allowedRoles = (...roles) => {
         if (roles.includes(userRole)) {
             return next();
         }
-        throw new ApiError(403, 'You have no permission to access this page');
+        throw new ApiError(403, 'You have no permission to access this service');
     };
 };

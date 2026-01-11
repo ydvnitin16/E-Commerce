@@ -1,6 +1,7 @@
 import Store from '../models/store.js';
 import ApiError from '../utils/apiError.js';
-export const createStore = async ({
+
+export const createStoreService = async ({
     name,
     description,
     slug,
@@ -28,4 +29,26 @@ export const createStore = async ({
     });
 
     return store;
+};
+
+const allowedStatuses = ['PENDING', 'APPROVED', 'REJECTED'];
+
+export const updateStoreStatusService = async ({ storeId, status }) => {
+    let store = await Store.findById(storeId);
+    if (!store) throw new ApiError(404, 'Store not exist');
+
+    if (!allowedStatuses.includes(status))
+        throw new ApiError(400, 'Invalid store status');
+
+    if (store.status === status)
+        throw new ApiError(400, `Store already ${status.toLowerCase()} `);
+
+    store.status = status;
+    if (status === 'APPROVED') {
+        store.isActive = true;
+    }
+
+    const updatedStore = await store.save();
+
+    return updatedStore;
 };
