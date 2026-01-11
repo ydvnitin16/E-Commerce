@@ -21,3 +21,21 @@ export const getUserService = async (query) => {
     const user = await User.findOne(query);
     return user;
 };
+
+const allowedRoles = ['CUSTOMER', 'VENDOR', 'ADMIN'];
+
+export const updateUserRole = async ({ userId, role }) => {
+    const user = await User.findById(userId);
+    if (!user) throw new ApiError(404, 'User not found');
+
+    if (!role || !allowedRoles.includes(role))
+        throw new ApiError(400, 'Invalid user role');
+
+    if (user.role === role)
+        throw new ApiError(400, `Store already ${role.toLowerCase()} `);
+
+    user.role = role;
+    const updatedUser = await user.save();
+
+    return updatedUser;
+};

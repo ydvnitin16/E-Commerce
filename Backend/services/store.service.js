@@ -37,7 +37,7 @@ export const updateStoreStatusService = async ({ storeId, status }) => {
     let store = await Store.findById(storeId);
     if (!store) throw new ApiError(404, 'Store not exist');
 
-    if (!allowedStatuses.includes(status))
+    if (!status || !allowedStatuses.includes(status))
         throw new ApiError(400, 'Invalid store status');
 
     if (store.status === status)

@@ -1,3 +1,4 @@
+import { updateUserRole } from '../services/auth.service.js';
 import {
     getStoresService,
     updateStoreStatusService,
@@ -8,6 +9,10 @@ export const updateStoreStatus = async (req, res) => {
     const { storeId } = req.params;
     const { status } = req.body;
     const store = await updateStoreStatusService({ storeId, status });
+
+    if (store.status === 'APPROVED')
+        updateUserRole({ userId: store.userId, role: 'VENDOR' });
+
     ApiSuccess(res, 200, `Store ${status}`, store);
 };
 
