@@ -25,7 +25,7 @@ const Button = ({
     return (
         <button
             className={clsx(
-                'inline-flex items-center justify-center rounded-md font-medium transition',
+                'inline-flex items-center justify-center rounded-lg font-medium transition',
                 'focus:outline-none focus:ring-2 focus:ring-zinc-900 dark:focus:ring-zinc-100',
                 'disabled:opacity-80 disabled:pointer-events-none',
                 variants[variant],

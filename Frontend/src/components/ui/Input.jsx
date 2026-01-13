@@ -10,7 +10,7 @@ const Input = ({ label, error, className, ...props }) => {
             )}
             <input
                 className={clsx(
-                    'w-full rounded-md border bg-transparent px-4 py-3 text-sm',
+                    'w-full rounded-lg border bg-transparent px-4 py-3 text-sm',
                     'border-zinc-200 dark:border-zinc-800',
                     'placeholder:text-zinc-400',
                     'focus:outline-none focus:ring-2 focus:ring-zinc-900 dark:focus:ring-zinc-100',

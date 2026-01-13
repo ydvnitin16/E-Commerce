@@ -50,7 +50,7 @@ const Login = () => {
                         {/* Password */}
                         <Input
                             label={'Password'}
-                            error={errors.email?.password}
+                            error={errors.password?.message}
                             {...register('password')}
                             type="password"
                             placeholder="••••••••"
