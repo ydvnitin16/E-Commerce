@@ -2,7 +2,7 @@ import clsx from 'clsx';
 
 const variants = {
     primary:
-        'bg-zinc-900 text-white hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900',
+        'bg-zinc-900 text-white dark:hover:bg-zinc-400 hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900',
     secondary:
         'bg-zinc-100 text-zinc-900 hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-100',
     ghost: 'bg-transparent hover:bg-zinc-100 dark:hover:bg-zinc-800',
@@ -25,9 +25,9 @@ const Button = ({
     return (
         <button
             className={clsx(
-                'inline-flex items-center justify-center rounded-lg font-medium transition',
+                'inline-flex items-center justify-center rounded-lg font-medium transition cursor-pointer',
                 'focus:outline-none focus:ring-2 focus:ring-zinc-900 dark:focus:ring-zinc-100',
-                'disabled:opacity-80 disabled:pointer-events-none',
+                'disabled:opacity-60 disabled:pointer-events-none',
                 variants[variant],
                 sizes[size],
                 className
