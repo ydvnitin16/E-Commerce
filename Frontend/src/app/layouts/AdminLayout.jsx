@@ -1,36 +1,31 @@
-import Sidebar from '@/components/layout/Sidebar';
-import { Handshake, LayoutDashboard, Store } from 'lucide-react';
-import React from 'react';
 import { Outlet } from 'react-router-dom';
-
-const NAV_LINKS = [
-    { label: 'Dashboard', slug: '/admin/dashboard', icon: <LayoutDashboard /> },
-    { label: 'Stores', slug: '/admin/stores', icon: <Store /> },
-    {
-        label: 'Store requests',
-        slug: '/admin/store-requests',
-        icon: <Handshake />,
-    },
-];
-
-const USER_INFO = {
-    name: 'Nitin Yadav',
-    role: 'ADMIN',
-};
+import AppShell from '@/components/layout/AppShell';
+import { Handshake, LayoutDashboard, Store, User } from 'lucide-react';
 
 const AdminLayout = () => {
+    const NAV_LINKS = [
+        {
+            label: 'Dashboard',
+            slug: '/admin/dashboard',
+            icon: <LayoutDashboard size={18} />,
+        },
+        { label: 'Stores', slug: '/admin/stores', icon: <Store size={18} /> },
+        {
+            label: 'Store Requests',
+            slug: '/admin/store-requests',
+            icon: <Handshake size={18} />,
+        },
+    ];
+
+    const PANEL_DETAILS = {
+        label: 'ADMIN PANEL',
+        icon: <User size={18} />,
+    };
+
     return (
-        <>
-            <div className="flex min-h-screen">
-                <Sidebar
-                    heading={'Admin Panel'}
-                    data={NAV_LINKS}
-                    name={USER_INFO.name}
-                    role={USER_INFO.role}
-                />
-                <Outlet />
-            </div>
-        </>
+        <AppShell navLinks={NAV_LINKS} panelDetails={PANEL_DETAILS}>
+            <Outlet />
+        </AppShell>
     );
 };
 
