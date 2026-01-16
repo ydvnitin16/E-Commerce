@@ -1,6 +1,10 @@
 import Button from '@/components/ui/Button';
 import { Plus } from 'lucide-react';
 import React from 'react';
+import StoreTableRow from '../components/StoreTableRow';
+import SearchBar from '../components/SearchBar';
+import useStores from '../hooks/useStores';
+import Loader from '@/components/ui/Loader';
 
 export const storesDummyData = [
     {
@@ -65,7 +69,23 @@ export const storesDummyData = [
     },
 ];
 
+const STORE_HEADS = [
+    'Store Name',
+    'Owner',
+    'Category',
+    'Status',
+    'Revenue',
+    'Created',
+    'Actions',
+];
+
 const Stores = () => {
+    const { stores, loading, error } = useStores({ status: 'APPROVED' });
+
+    if (loading) {
+        return <Loader />;
+    }
+
     return (
         <>
             {/* Main Content */}
@@ -84,103 +104,27 @@ const Stores = () => {
 
                 {/* Card */}
                 <div className="bg-white rounded-xl shadow-sm border border-zinc-200">
-                    {/* Search */}
-                    <div className="p-5 flex items-center justify-between border-b border-zinc-100">
-                        <input
-                            className="w-full max-w-md px-4 py-2 border border-zinc-200 rounded-lg text-sm"
-                            placeholder="Search stores, owners, or emails..."
-                        />
-                        <span className="text-sm text-zinc-500 ml-4">
-                            5 stores
-                        </span>
-                    </div>
+                    <SearchBar />
 
                     {/* Table */}
                     <div className="overflow-x-auto">
                         <table className="w-full text-sm">
                             <thead className="bg-zinc-50 text-zinc-600">
                                 <tr>
-                                    <th className="text-left px-6 py-4">
-                                        Store Name
-                                    </th>
-                                    <th className="text-left px-6 py-4">
-                                        Owner
-                                    </th>
-                                    <th className="text-left px-6 py-4">
-                                        Category
-                                    </th>
-                                    <th className="text-left px-6 py-4">
-                                        Status
-                                    </th>
-                                    <th className="text-left px-6 py-4">
-                                        Revenue
-                                    </th>
-                                    <th className="text-left px-6 py-4">
-                                        Created
-                                    </th>
-                                    <th className="text-left px-6 py-4">
-                                        Actions
-                                    </th>
+                                    {STORE_HEADS.map((h, idx) => (
+                                        <th
+                                            key={idx}
+                                            className="text-left px-6 py-4"
+                                        >
+                                            {h}
+                                        </th>
+                                    ))}
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-zinc-100">
-                                <tr>
-                                    <td className="px-6 py-4">
-                                        <p className="font-medium">
-                                            TechHub Electronics
-                                        </p>
-                                        <p className="text-xs text-zinc-500">
-                                            john@techhub.com
-                                        </p>
-                                    </td>
-                                    <td className="px-6 py-4">John Smith</td>
-                                    <td className="px-6 py-4">Electronics</td>
-                                    <td className="px-6 py-4">
-                                        <span className="px-3 py-1 text-xs rounded-full bg-green-100 text-green-700">
-                                            Active
-                                        </span>
-                                    </td>
-                                    <td className="px-6 py-4 font-semibold">
-                                        $12,400
-                                    </td>
-                                    <td className="px-6 py-4 text-zinc-500">
-                                        2024-01-15
-                                    </td>
-                                    <td className="px-6 py-4 flex gap-4 text-zinc-500">
-                                        <span>👁</span>
-                                        <span>✏️</span>
-                                        <span className="text-red-500">🗑</span>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td className="px-6 py-4">
-                                        <p className="font-medium">
-                                            Fashion Forward
-                                        </p>
-                                        <p className="text-xs text-zinc-500">
-                                            sarah@fashionfw.com
-                                        </p>
-                                    </td>
-                                    <td className="px-6 py-4">Sarah Johnson</td>
-                                    <td className="px-6 py-4">Fashion</td>
-                                    <td className="px-6 py-4">
-                                        <span className="px-3 py-1 text-xs rounded-full bg-green-100 text-green-700">
-                                            Active
-                                        </span>
-                                    </td>
-                                    <td className="px-6 py-4 font-semibold">
-                                        $8,300
-                                    </td>
-                                    <td className="px-6 py-4 text-zinc-500">
-                                        2024-02-20
-                                    </td>
-                                    <td className="px-6 py-4 flex gap-4 text-zinc-500">
-                                        <span>👁</span>
-                                        <span>✏️</span>
-                                        <span className="text-red-500">🗑</span>
-                                    </td>
-                                </tr>
+                                {stores.map((store, idx) => (
+                                    <StoreTableRow key={idx} store={store} />
+                                ))}
                             </tbody>
                         </table>
                     </div>

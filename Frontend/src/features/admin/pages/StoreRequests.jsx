@@ -1,5 +1,7 @@
 import React from 'react';
 import StoreRequestCard from '../components/StoreRequestCard';
+import useStores from '../hooks/useStores';
+import Loader from '@/components/ui/Loader';
 
 export const storesDummyData = [
     {
@@ -65,18 +67,23 @@ export const storesDummyData = [
 ];
 
 const StoreRequests = () => {
+    const { stores, loading, error } = useStores({ status: 'PENDING' });
+
+    if(loading){
+        return <Loader />
+    }
     return (
         <main className="w-full flex-1 px-5 md:px-8 py-3 md:py-6">
             <div className="flex items-center justify-between mb-6">
                 <div className="w-full flex flex-col sm:flex-row justify-between text-3xl font-bold">
                     <h1>Stores Requests</h1>
                     <div className="text-xl text-zinc-700">
-                        Pending Request: (10)
+                        Pending Request: ({stores.length})
                     </div>
                 </div>
             </div>
             <div className="grid  gap-2 bg-white rounded-2xl overflow-hidden">
-                {storesDummyData.map((store) => (
+                {stores.map((store) => (
                     <StoreRequestCard store={store} />
                 ))}
             </div>

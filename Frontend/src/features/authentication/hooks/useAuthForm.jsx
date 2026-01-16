@@ -1,5 +1,5 @@
 import toast from 'react-hot-toast';
-import { loginUser, signupUser } from '../services/auth';
+import { loginUser, signupUser } from '../services/auth.api';
 import { useNavigate } from 'react-router-dom';
 
 export const useAuthHandle = ({ type, reset }) => {
