@@ -31,8 +31,6 @@ export const updateUserRole = async ({ userId, role }) => {
     if (!role || !allowedRoles.includes(role))
         throw new ApiError(400, 'Invalid user role');
 
-    if (user.role === role)
-        throw new ApiError(400, `Store already ${role.toLowerCase()} `);
 
     user.role = role;
     const updatedUser = await user.save();

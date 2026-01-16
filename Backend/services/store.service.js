@@ -40,9 +40,6 @@ export const updateStoreStatusService = async ({ storeId, status }) => {
     if (!status || !allowedStatuses.includes(status))
         throw new ApiError(400, 'Invalid store status');
 
-    if (store.status === status)
-        throw new ApiError(400, `Store already ${status.toLowerCase()} `);
-
     store.status = status;
     if (status === 'APPROVED') {
         store.isActive = true;
@@ -53,7 +50,10 @@ export const updateStoreStatusService = async ({ storeId, status }) => {
     return updatedStore;
 };
 
-export const getStoresService = async () => {
-    const stores = await Store.find();
+export const getStoresService = async (query) => {
+    const stores = await Store.find(query).populate(
+        'userId',
+        '-password -role -image'
+    );
     return stores || [];
 };
