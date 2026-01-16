@@ -16,3 +16,20 @@ export const fetchStores = async (params = {}, signal) => {
     }
     return await res.json();
 };
+
+export const updateStoreStatus = async (storeId, status) => {
+    const res = await fetch(`${BASE_URL}/admin/store/${storeId}/status`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({ status: status }),
+    });
+
+    if (!res.ok) {
+        const error = await res.json();
+        throw new Error(error.message || 'Failed to fetch stores');
+    }
+    return await res.json();
+};

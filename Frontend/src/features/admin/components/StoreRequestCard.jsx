@@ -1,8 +1,9 @@
 import Button from '@/components/ui/Button';
+import InlineLoader from '@/components/ui/InlineLoader';
 import { CircleCheckBig, CircleX, Mail, MapPin, Phone } from 'lucide-react';
 import React from 'react';
 
-const StoreRequestCard = ({ store }) => {
+const StoreRequestCard = ({ store, approveStore, rejectStore, loading }) => {
     const badgeStyle = {
         PENDING:
             'px-3 py-1 text-xs font-medium rounded-full bg-yellow-100 text-yellow-700 whitespace-nowrap',
@@ -75,21 +76,33 @@ const StoreRequestCard = ({ store }) => {
 
                 {/* Actions */}
                 <div className="flex flex-col sm:flex-row gap-3 pt-2">
-                    <Button
-                        variant="secondary"
-                        className="sm:flex-1 gap-2 justify-center"
-                    >
-                        <CircleCheckBig size={18} />
-                        Approve Request
-                    </Button>
+                    {loading ? (
+                        <InlineLoader content="Updating Status..." />
+                    ) : store.status !== 'PENDING' ? (
+                        ''
+                    ) : (
+                        <>
+                            <Button
+                                disabled={loading}
+                                onClick={() => approveStore(store._id)}
+                                variant="secondary"
+                                className="sm:flex-1 gap-2 justify-center"
+                            >
+                                <CircleCheckBig size={18} />
+                                Approve Request
+                            </Button>
 
-                    <Button
-                        variant="primary"
-                        className="sm:flex-1 gap-2 justify-center"
-                    >
-                        <CircleX size={18} />
-                        Reject Request
-                    </Button>
+                            <Button
+                                disabled={loading}
+                                onClick={() => rejectStore(store._id)}
+                                variant="primary"
+                                className="sm:flex-1 gap-2 justify-center"
+                            >
+                                <CircleX size={18} />
+                                Reject Request
+                            </Button>
+                        </>
+                    )}
                 </div>
             </div>
         </div>

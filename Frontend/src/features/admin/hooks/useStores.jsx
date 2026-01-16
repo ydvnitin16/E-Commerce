@@ -34,7 +34,7 @@ const useStores = ({ status }) => {
         };
     }, [status]);
 
-    return { stores, loading, error };
+    return { stores, setStores, loading, error };
 };
 
 export default useStores;
