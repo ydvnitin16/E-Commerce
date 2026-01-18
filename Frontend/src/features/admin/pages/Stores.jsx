@@ -1,10 +1,11 @@
 import Button from '@/components/ui/Button';
 import { Plus } from 'lucide-react';
-import React from 'react';
+import React, { useState } from 'react';
 import StoreTableRow from '../components/StoreTableRow';
 import SearchBar from '../components/SearchBar';
 import useStores from '../hooks/useStores';
 import Loader from '@/components/ui/Loader';
+import StoreDetailsModal from '../components/StoreDetailsModal';
 
 export const storesDummyData = [
     {
@@ -81,6 +82,7 @@ const STORE_HEADS = [
 
 const Stores = () => {
     const { stores, loading, error } = useStores({ status: 'APPROVED' });
+    const [selectedStore, setSelectedStore] = useState(null);
 
     if (loading) {
         return <Loader />;
@@ -88,6 +90,12 @@ const Stores = () => {
 
     return (
         <>
+            {selectedStore && (
+                <StoreDetailsModal
+                    store={selectedStore}
+                    onClose={() => setSelectedStore(null)}
+                />
+            )}
             {/* Main Content */}
             <main className="flex-1 p-10">
                 <div className="flex items-center justify-between mb-6">
@@ -123,7 +131,11 @@ const Stores = () => {
                             </thead>
                             <tbody className="divide-y divide-zinc-100">
                                 {stores.map((store, idx) => (
-                                    <StoreTableRow key={idx} store={store} />
+                                    <StoreTableRow
+                                        key={idx}
+                                        store={store}
+                                        setSelectedStore={setSelectedStore}
+                                    />
                                 ))}
                             </tbody>
                         </table>

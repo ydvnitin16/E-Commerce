@@ -1,6 +1,6 @@
 import { Eye, Pencil } from 'lucide-react';
 
-const StoreTableRow = ({ store }) => {
+const StoreTableRow = ({ store, setSelectedStore }) => {
     return (
         <tr>
             <td className="px-6 py-4">
@@ -27,7 +27,10 @@ const StoreTableRow = ({ store }) => {
             <td className="px-6 py-4 text-zinc-500">2024-01-15</td>
 
             <td className="px-6 py-4 flex gap-4 text-zinc-500">
-                <button>
+                <button
+                    className=" cursor-pointer"
+                    onClick={() => setSelectedStore(store)}
+                >
                     <Eye size={20} />
                 </button>
                 <button>
