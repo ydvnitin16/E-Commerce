@@ -53,7 +53,12 @@ export const updateStoreStatusService = async ({ storeId, status }) => {
 export const getStoresService = async (query) => {
     const stores = await Store.find(query).populate(
         'userId',
-        '-password -role -image'
+        '-password -role ',
     );
     return stores || [];
+};
+
+export const getStoreService = async (query) => {
+    const store = await Store.findOne(query);
+    return store;
 };

@@ -1,35 +1,31 @@
-import Product from '../models/Products.js';
+import Product from '../models/product.js';
+import { storeProduct } from '../services/product.service.js';
+import ApiSuccess from '../utils/apiSuccess.js';
 
 // Admin -> Add product
-const addProduct = async (req, res) => {
-    const { name, description, price, category, inStock } = req.body;
+export const createProduct = async (req, res) => {
+    const storeId = req.store._id;
+    const files = req.files;
 
-    const image = {
-        url: req.file.path,
-        public_id: req.file.filename
-    }
-    
-    try {
-        const product = await Product({
-            name,
-            description,
-            price: Number(price),
-            category,
-            image: image,
-            inStock: inStock,
-        });
+    // attach images to the product
+    const productImages = files.map((file) => {
+        const image = {
+            url: file.path,
+            public_id: file.filename,
+        };
+        console.log(image);
+        return image;
+    });
+    req.body.images = productImages;
+    console.log(req.body);
 
-        await product.save();
-        res.status(200).json({ message: 'Product Added Successfully.' });
-    } catch (error) {
-        res.status(500).json({
-            message: 'Server error. please try again later.',
-        });
-    }
+    const product = await storeProduct({ ...req.body, storeId });
+
+    ApiSuccess(res, 200, 'Product created successfully', { product });
 };
 
 // Admin -> Delete product
-const deleteProduct = async (req, res) => {
+export const deleteProduct = async (req, res) => {
     const { id } = req.params;
     try {
         console.log(`Entered`);
@@ -50,7 +46,7 @@ const deleteProduct = async (req, res) => {
 };
 
 // Admin -> Update product
-const updateProduct = async (req, res) => {
+export const updateProduct = async (req, res) => {
     const { id } = req.params;
     try {
         const product = await Product.findById(id);
@@ -66,5 +62,3 @@ const updateProduct = async (req, res) => {
         });
     }
 };
-
-export { addProduct, deleteProduct, updateProduct };

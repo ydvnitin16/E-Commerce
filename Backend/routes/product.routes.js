@@ -1,7 +1,28 @@
 import express from 'express';
-import Product from '../models/Products.js';
+import Product from '../models/product.js';
+import { allowedRoles, auth } from '../middlewares/auth.middlewares.js';
+import {
+    isStoreApproved,
+    resolveTenant,
+} from '../middlewares/store.middleware.js';
+import { validateProduct } from '../middlewares/validate/product.validate.js';
+import { createProduct } from '../controllers/product.controller.js';
+import multer from 'multer';
+import { storage } from '../config/cloudinary.js';
 
 const router = express.Router();
+const uploads = multer({ storage });
+
+router.post(
+    '/:storeSlug/create-product',
+    auth,
+    allowedRoles('VENDOR'),
+    resolveTenant,
+    isStoreApproved,
+    uploads.array('images'),
+    validateProduct,
+    createProduct,
+);
 
 // User -> Shop -> Show products
 router.get('/products', async (req, res) => {

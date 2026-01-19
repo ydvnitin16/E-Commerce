@@ -17,6 +17,7 @@ export const updateStoreStatus = async (req, res) => {
 };
 
 export const getStores = async (req, res) => {
-    const stores = await getStoresService();
+    let { status } = req.query; // Add query logic to fetch desired Stores
+    const stores = await getStoresService({ status });
     ApiSuccess(res, 200, 'Stores retrieved successfully', { stores });
 };

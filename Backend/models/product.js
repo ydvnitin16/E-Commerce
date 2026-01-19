@@ -10,12 +10,17 @@ const productSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
+        mrp: {
+            type: Number,
+            required: true,
+            min: 1,
+        },
         price: {
             type: Number,
             required: true,
             min: 1,
         },
-        image: {
+        images: {
             type: [
                 {
                     url: { type: String, required: true },
