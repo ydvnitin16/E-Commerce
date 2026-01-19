@@ -34,4 +34,65 @@ const validateProduct = (req, res, next) => {
     next();
 };
 
+export const validateProductUpdate = (req, res, next) => {
+    if (req.body === undefined) {
+        throw new ApiError(400, 'At least one field is required to update');
+    }
+    
+    const { price, mrp, description, inStock } = req.body;
+
+    const allowedFields = ['price', 'mrp', 'description', 'inStock'];
+    const requestFields = Object.keys(req.body);
+
+    if (requestFields.length === 0) {
+        throw new ApiError(400, 'At least one field is required to update');
+    }
+
+    const invalidFields = requestFields.filter(
+        (field) => !allowedFields.includes(field),
+    );
+
+    if (invalidFields.length > 0) {
+        throw new ApiError(
+            400,
+            `You are not allowed to update: ${invalidFields.join(', ')}`,
+        );
+    }
+
+    if (price !== undefined) {
+        if (isNaN(price) || Number(price) < 1) {
+            throw new ApiError(
+                400,
+                'Price must be a number greater than or equal to 1',
+            );
+        }
+    }
+
+    if (mrp !== undefined) {
+        if (isNaN(mrp) || Number(mrp) < 1) {
+            throw new ApiError(
+                400,
+                'MRP must be a number greater than or equal to 1',
+            );
+        }
+    }
+
+    if (description !== undefined) {
+        if (description.length < 10) {
+            throw new ApiError(
+                400,
+                'Description must contain at least 10 characters',
+            );
+        }
+    }
+
+    if (inStock !== undefined) {
+        if (typeof inStock !== 'boolean') {
+            throw new ApiError(400, 'inStock must be a boolean value');
+        }
+    }
+
+    next();
+};
+
 export { validateProduct };

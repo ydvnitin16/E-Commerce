@@ -1,5 +1,8 @@
 import Product from '../models/product.js';
-import { storeProduct } from '../services/product.service.js';
+import {
+    storeProductService,
+    updateProductService,
+} from '../services/product.service.js';
 import ApiSuccess from '../utils/apiSuccess.js';
 
 // Admin -> Add product
@@ -17,9 +20,8 @@ export const createProduct = async (req, res) => {
         return image;
     });
     req.body.images = productImages;
-    console.log(req.body);
 
-    const product = await storeProduct({ ...req.body, storeId });
+    const product = await storeProductService({ ...req.body, storeId });
 
     ApiSuccess(res, 200, 'Product created successfully', { product });
 };
@@ -45,20 +47,16 @@ export const deleteProduct = async (req, res) => {
     }
 };
 
-// Admin -> Update product
 export const updateProduct = async (req, res) => {
-    const { id } = req.params;
-    try {
-        const product = await Product.findById(id);
-        if (!product)
-            return res.status(404).json({ message: 'Product Not Exist' });
+    const { productId } = req.params;
+    const storeId = req.store._id;
 
-        product.inStock = req.body.inStock;
-        await product.save();
-        res.status(200).json({ message: 'Product Updated Successfully.' });
-    } catch (error) {
-        res.status(500).json({
-            message: 'Server error. please try again later.',
-        });
-    }
+    const updatedProduct = await updateProductService(
+        productId,
+        storeId,
+        req.body
+    );
+    ApiSuccess(res, 200, 'Product Updated Successfully.', {
+        product: updatedProduct,
+    });
 };

@@ -5,8 +5,14 @@ import {
     isStoreApproved,
     resolveTenant,
 } from '../middlewares/store.middleware.js';
-import { validateProduct } from '../middlewares/validate/product.validate.js';
-import { createProduct } from '../controllers/product.controller.js';
+import {
+    validateProduct,
+    validateProductUpdate,
+} from '../middlewares/validate/product.validate.js';
+import {
+    createProduct,
+    updateProduct,
+} from '../controllers/product.controller.js';
 import multer from 'multer';
 import { storage } from '../config/cloudinary.js';
 
@@ -22,6 +28,16 @@ router.post(
     uploads.array('images'),
     validateProduct,
     createProduct,
+);
+
+router.put(
+    '/:storeSlug/product/:productId/update',
+    auth,
+    allowedRoles('VENDOR'),
+    resolveTenant,
+    isStoreApproved,
+    validateProductUpdate,
+    updateProduct,
 );
 
 // User -> Shop -> Show products
