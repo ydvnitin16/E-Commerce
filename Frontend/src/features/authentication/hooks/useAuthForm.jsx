@@ -19,12 +19,18 @@ export const useAuthHandle = ({ type, reset }) => {
             toast.success(
                 type === 'login'
                     ? 'Login successful'
-                    : 'Account created successfully'
+                    : 'Account created successfully',
             );
 
             reset();
-
-            // Navigation will do here
+            const role = data.user.role;
+            const navigateTo =
+                role === 'ADMIN'
+                    ? '/admin/dashboard'
+                    : role === 'VENDOR'
+                      ? '/store/storeName'
+                      : '/';
+            navigate(navigateTo);
         } catch (err) {
             toast.error(err.message || 'Something went wrong');
         }

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { PanelRight } from 'lucide-react';
 import Sidebar from './Sidebar';
 
-const AppShell = ({ panelDetails, navLinks, children }) => {
+const AppShell = ({ panelDetails, navLinks, children, Footer }) => {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
@@ -21,6 +21,7 @@ const AppShell = ({ panelDetails, navLinks, children }) => {
                 navLinks={navLinks}
                 isOpen={isOpen}
                 onClose={() => setIsOpen(false)}
+                Footer={Footer}
             />
 
             {/* MAIN CONTENT */}

@@ -10,6 +10,10 @@ import AdminLayout from './layouts/AdminLayout';
 import Dashboard from '@/features/admin/pages/Dashboard';
 import Stores from '@/features/admin/pages/Stores';
 import StoreRequests from '@/features/admin/pages/StoreRequests';
+import StoreLayout from './layouts/StoreLayout';
+import StoreDashboard from '@/features/store/pages/StoreDashboard';
+import AddProduct from '@/features/store/pages/AddProduct';
+import ManageProducts from '@/features/store/pages/ManageProducts';
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -23,8 +27,13 @@ const router = createBrowserRouter(
                 <Route path="stores" element={<Stores />} />
                 <Route path="store-requests" element={<StoreRequests />} />
             </Route>
-        </>
-    )
+            <Route path="/store/:storeSlug" element={<StoreLayout />}>
+                <Route path="dashboard" element={<StoreDashboard />} />
+                <Route path="add-product" element={<AddProduct />} />
+                <Route path="manage-products" element={<ManageProducts />} />
+            </Route>
+        </>,
+    ),
 );
 
 export default router;

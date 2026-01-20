@@ -1,7 +1,7 @@
 import Navlink from '../ui/Navlink';
 import { PanelLeft, X } from 'lucide-react';
 
-const Sidebar = ({ panelDetails, navLinks, isOpen, onClose }) => {
+const Sidebar = ({ panelDetails, navLinks, isOpen, onClose, Footer }) => {
     return (
         <>
             {/* Click anywere to close it */}
@@ -55,9 +55,15 @@ const Sidebar = ({ panelDetails, navLinks, isOpen, onClose }) => {
                 </nav>
 
                 {/* Footer */}
-                <div className="px-4 py-3 border-t border-zinc-200 text-sm text-zinc-600">
-                    Logged in as Admin
-                </div>
+                {Footer ? (
+                    <div className="mt-auto border-t border-zinc-200">
+                        {Footer}
+                    </div>
+                ) : (
+                    <div className="px-4 py-3 border-t border-zinc-200 text-sm text-zinc-600">
+                        Logged in as Admin
+                    </div>
+                )}
             </aside>
         </>
     );
