@@ -8,7 +8,11 @@ export const loginUser = async (data) => {
         body: JSON.stringify(data),
     });
 
-    return res.json();
+    if (!res.ok) {
+        const error = await res.json();
+        throw new Error(error.message || 'Authentication failed');
+    }
+    return await res.json();
 };
 
 export const signupUser = async (data) => {
@@ -17,6 +21,10 @@ export const signupUser = async (data) => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
     });
-
-    return res.json();
+    
+    if (!res.ok) {
+        const error = await res.json();
+        throw new Error(error.message || 'Authentication failed');
+    }
+    return await res.json();
 };

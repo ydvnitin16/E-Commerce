@@ -1,8 +1,10 @@
 import toast from 'react-hot-toast';
 import { loginUser, signupUser } from '../services/auth.api';
 import { useNavigate } from 'react-router-dom';
+import useAuthStore from '@/stores/useAuthStore';
 
 export const useAuthHandle = ({ type, reset }) => {
+    const { setAuthUser } = useAuthStore();
     const navigate = useNavigate();
 
     const onSubmit = async (formData) => {
@@ -11,11 +13,7 @@ export const useAuthHandle = ({ type, reset }) => {
 
             const data = await action(formData);
 
-            if (!data?.success) {
-                toast.error(data.message || 'Authentication failed');
-                return;
-            }
-            console.log(data);
+            setAuthUser(data.user);
             toast.success(
                 type === 'login'
                     ? 'Login successful'
