@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { addProduct } from '../services/addProduct.api';
+import { addProduct } from '../services/product.api';
 import toast from 'react-hot-toast';
 
 const useAddProduct = ({ storeSlug, reset }) => {
@@ -29,7 +29,7 @@ const useAddProduct = ({ storeSlug, reset }) => {
             }
 
             if (images.length < 1) {
-                throw Error('Please add at least one product image')
+                throw Error('Please add at least one product image');
             }
 
             const data = await addProduct(storeSlug, formatedData);
