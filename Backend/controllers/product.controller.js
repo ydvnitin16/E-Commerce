@@ -1,5 +1,6 @@
 import Product from '../models/product.js';
 import {
+    getProductsByStoreService,
     storeProductService,
     updateProductService,
 } from '../services/product.service.js';
@@ -54,9 +55,18 @@ export const updateProduct = async (req, res) => {
     const updatedProduct = await updateProductService(
         productId,
         storeId,
-        req.body
+        req.body,
     );
     ApiSuccess(res, 200, 'Product Updated Successfully.', {
         product: updatedProduct,
+    });
+};
+
+export const getMyStoreProducts = async (req, res) => {
+    const storeId = req.store._id;
+    const { products, total } = await getProductsByStoreService({ storeId });
+    ApiSuccess(res, 200, 'Product Updated Successfully.', {
+        products,
+        total,
     });
 };

@@ -11,6 +11,7 @@ import {
 } from '../middlewares/validate/product.validate.js';
 import {
     createProduct,
+    getMyStoreProducts,
     updateProduct,
 } from '../controllers/product.controller.js';
 import multer from 'multer';
@@ -39,6 +40,8 @@ router.put(
     validateProductUpdate,
     updateProduct,
 );
+
+router.get('/:storeSlug/products', auth, allowedRoles('VENDOR'), resolveTenant, isStoreApproved, getMyStoreProducts)
 
 // User -> Shop -> Show products
 router.get('/products', async (req, res) => {

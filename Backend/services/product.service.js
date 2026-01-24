@@ -1,4 +1,5 @@
 import Product from '../models/product.js';
+import Store from '../models/store.js';
 import ApiError from '../utils/apiError.js';
 
 export const storeProductService = async ({
@@ -40,4 +41,15 @@ export const updateProductService = async (productId, storeId, updates) => {
 
     await product.save();
     return product;
+};
+
+export const getProductsByStoreService = async ({ storeId }) => {
+    const products = await Product.find({ storeId });
+
+    const total = await Product.countDocuments({ storeId });
+
+    return {
+        products,
+        total,
+    };
 };
