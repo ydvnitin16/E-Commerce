@@ -35,13 +35,14 @@ const ProductListItem = ({ product, storeSlug, updateStock }) => {
             <div className='md:col-span-3 md:flex md:justify-end'>
                 <Toggle
                     checked={product.inStock}
-                    onChange={() =>
+                    onChange={(e) => {
+                        e.stopPropagation();
                         updateStock({
                             storeSlug,
                             productId: product._id,
                             inStock: !product.inStock,
-                        })
-                    }
+                        });
+                    }}
                 />
             </div>
         </div>
