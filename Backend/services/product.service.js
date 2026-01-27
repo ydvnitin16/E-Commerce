@@ -33,7 +33,7 @@ export const updateProductService = async (productId, storeId, updates) => {
     const ALLOWED_FIELDS_TO_UPDATE = ['price', 'mrp', 'description', 'inStock'];
 
     for (let field of ALLOWED_FIELDS_TO_UPDATE) {
-        if (updates[field]) {
+        if (updates[field] !== undefined && updates[field] !== null) {
             safeUpdates[field] = updates[field];
         }
     }
