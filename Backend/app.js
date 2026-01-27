@@ -8,7 +8,7 @@ import adminRoutes from './routes/admin.routes.js';
 import userRoutes from './routes/auth.routes.js';
 import storeRoutes from './routes/store.routes.js'
 import productRoutes from './routes/product.routes.js';
-import orderRoutes from './routes/order.routes.js';
+// import orderRoutes from './routes/order.routes.js';
 import { errorHandler } from './middlewares/error.middlewares.js';
 
 const app = express();
@@ -31,7 +31,7 @@ app.use('/user', userRoutes);
 app.use('/store', storeRoutes)
 app.use('/', productRoutes);
 app.use('/admin', adminRoutes);
-app.use('/orders', orderRoutes);
+// app.use('/orders', orderRoutes);
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 3000;
