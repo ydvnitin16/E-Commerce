@@ -1,42 +1,43 @@
-import AppShell from '@/components/layout/AppShell';
-import StoresList from '@/features/store/components/StoresList';
-import useVendorStoreStore from '@/stores/useVendorStoreStore';
+import AppShell from "@/components/layout/AppShell";
+import StoresList from "@/features/store/components/StoresList";
+import useVendorStoreStore from "@/stores/useVendorStoreStore";
 import {
     LucideHome,
     LucideSquarePlus,
     ShoppingBag,
     SquarePen,
-} from 'lucide-react';
-import React, { useEffect } from 'react';
-import { Outlet, useNavigate, useParams } from 'react-router-dom';
+} from "lucide-react";
+import React, { useEffect } from "react";
+import { Outlet, useNavigate, useParams, useLocation } from "react-router-dom";
 const BASE_URL = import.meta.env.VITE_SERVER_URL;
 
 const StoreLayout = () => {
     const { storeSlug } = useParams();
     const navigate = useNavigate();
+    const location = useLocation();
 
-    const { setStores, setCurrentStore } = useVendorStoreStore();
+    const { setStores, setCurrentStore, currentStore } = useVendorStoreStore();
 
     const NAV_LINKS = [
         {
-            label: 'Dashboard',
+            label: "Dashboard",
             slug: `/store/${storeSlug}/dashboard`,
             icon: <LucideHome size={18} />,
         },
         {
-            label: 'Add product',
+            label: "Add product",
             slug: `/store/${storeSlug}/add-product`,
             icon: <LucideSquarePlus size={18} />,
         },
         {
-            label: 'Manage products',
+            label: "Manage products",
             slug: `/store/${storeSlug}/manage-products`,
             icon: <SquarePen size={18} />,
         },
     ];
 
     const PANEL_DETAILS = {
-        label: 'STORE PANEL',
+        label: "STORE PANEL",
         icon: <ShoppingBag size={18} />,
     };
 
@@ -44,16 +45,24 @@ const StoreLayout = () => {
     useEffect(() => {
         const loadStores = async () => {
             const res = await fetch(`${BASE_URL}/store/user-stores`, {
-                method: 'GET',
-                credentials: 'include',
+                method: "GET",
+                credentials: "include",
             });
             const data = await res.json();
 
             // store all the stores in the global storage & navigate
             setStores(data.stores);
-            const storeSlug = data.stores[0].slug || '';
+            const storeSlug = currentStore?.slug || data.stores[0].slug || "";
+
             setCurrentStore(storeSlug);
-            navigate(`/store/${storeSlug}/dashboard`);
+
+            // Only navigate to dashboard if not already on a valid store route
+            const isStoreRoute = location.pathname.includes(
+                `/store/${storeSlug}/`,
+            );
+            if (!isStoreRoute) {
+                navigate(`/store/${storeSlug}/dashboard`);
+            }
         };
         loadStores();
     }, []);

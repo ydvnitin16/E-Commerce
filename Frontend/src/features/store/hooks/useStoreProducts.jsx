@@ -24,7 +24,7 @@ const useStoreProducts = ({ storeSlug }) => {
         loadProducts();
     }, [storeSlug]);
 
-    return { loading, error, products, total };
+    return { loading, error, products, setProducts, total };
 };
 
 export default useStoreProducts;

@@ -34,6 +34,8 @@ const useAddProduct = ({ storeSlug, reset }) => {
 
             const data = await addProduct(storeSlug, formatedData);
             toast.success(data.message || 'Product added succesfully');
+            reset()
+            setImages([])
         } catch (err) {
             console.log(err.message);
             setError(err.message || 'Something went wrong');
