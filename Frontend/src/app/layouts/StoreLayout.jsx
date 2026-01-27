@@ -44,24 +44,31 @@ const StoreLayout = () => {
     // Fetch user's (VENDOR) store for the vendor routes
     useEffect(() => {
         const loadStores = async () => {
-            const res = await fetch(`${BASE_URL}/store/user-stores`, {
-                method: "GET",
-                credentials: "include",
-            });
-            const data = await res.json();
+            try {
+                const res = await fetch(`${BASE_URL}/store/user-stores`, {
+                    method: "GET",
+                    credentials: "include",
+                });
+                const data = await res.json();
+                if (!res.ok) {
+                    throw new Error(data.message || "Failed to fetch stores");
+                }
 
-            // store all the stores in the global storage & navigate
-            setStores(data.stores);
-            const storeSlug = currentStore?.slug || data.stores[0].slug || "";
+                // store all the stores in the global storage & navigate
+                setStores(data.stores);
+                const storeSlug = currentStore?.slug || data.stores[0].slug;
+                setCurrentStore(storeSlug);
 
-            setCurrentStore(storeSlug);
-
-            // Only navigate to dashboard if not already on a valid store route
-            const isStoreRoute = location.pathname.includes(
-                `/store/${storeSlug}/`,
-            );
-            if (!isStoreRoute) {
-                navigate(`/store/${storeSlug}/dashboard`);
+                // Only navigate to dashboard if not already on a valid store route
+                const isStoreRoute = location.pathname.includes(
+                    `/store/${storeSlug}/`,
+                );
+                if (!isStoreRoute) {
+                    navigate(`/store/${storeSlug}/dashboard`);
+                }
+            } catch (err) {
+                console.error("Error fetching user stores:", err);
+                return;
             }
         };
         loadStores();
