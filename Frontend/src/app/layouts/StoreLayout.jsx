@@ -42,7 +42,7 @@ const StoreLayout = () => {
     };
 
     // Fetch user's (VENDOR) store for the vendor routes
-    useEffect(() => {
+    useEffect(async () => {
         const loadStores = async () => {
             try {
                 const res = await fetch(`${BASE_URL}/store/user-stores`, {
@@ -56,23 +56,29 @@ const StoreLayout = () => {
 
                 // store all the stores in the global storage & navigate
                 setStores(data.stores);
-                const storeSlug = currentStore?.slug || data.stores[0].slug;
-                setCurrentStore(storeSlug);
+
+                if(storeSlug) {
+                    setCurrentStore(storeSlug)
+                    return;
+                }
+
+                const newStoreSlug = currentStore?.slug || data.stores[0].slug;
+                setCurrentStore(newStoreSlug);
 
                 // Only navigate to dashboard if not already on a valid store route
                 const isStoreRoute = location.pathname.includes(
-                    `/store/${storeSlug}/`,
+                    `/store/${newStoreSlug}/`,
                 );
                 if (!isStoreRoute) {
-                    navigate(`/store/${storeSlug}/dashboard`);
+                    navigate(`/store/${newStoreSlug}/dashboard`);
                 }
             } catch (err) {
-                console.error("Error fetching user stores:", err);
+                console.error("Error fetching user stores:", err.message);
                 return;
             }
         };
-        loadStores();
-    }, []);
+        await loadStores();
+    }, [currentStore?.slug, location.pathname, navigate, setStores, setCurrentStore]);
 
     return (
         <AppShell

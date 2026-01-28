@@ -6,8 +6,8 @@ const EXPIRY_TIME = 30 * 24 * 60 * 60 * 1000; // 30 days
 const useAuthStore = create(
     persist(
         (set, get) => ({
-            currentUsr: null,
-            sessionStatedAt: null,
+            currentUser: null,
+            sessionStartedAt: null,
 
             setAuthUser: (user) => {
                 set({
