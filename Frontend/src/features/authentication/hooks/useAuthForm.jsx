@@ -26,7 +26,7 @@ export const useAuthHandle = ({ type, reset }) => {
                 role === 'ADMIN'
                     ? '/admin/dashboard'
                     : role === 'VENDOR'
-                      ? '/store/storeName'
+                      ? '/store'
                       : '/';
             navigate(navigateTo);
         } catch (err) {

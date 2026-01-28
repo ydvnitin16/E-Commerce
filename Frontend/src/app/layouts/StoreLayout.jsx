@@ -9,14 +9,9 @@ import {
 } from "lucide-react";
 import React, { useEffect } from "react";
 import { Outlet, useNavigate, useParams, useLocation } from "react-router-dom";
-const BASE_URL = import.meta.env.VITE_SERVER_URL;
 
 const StoreLayout = () => {
     const { storeSlug } = useParams();
-    const navigate = useNavigate();
-    const location = useLocation();
-
-    const { setStores, setCurrentStore, currentStore } = useVendorStoreStore();
 
     const NAV_LINKS = [
         {
@@ -40,45 +35,6 @@ const StoreLayout = () => {
         label: "STORE PANEL",
         icon: <ShoppingBag size={18} />,
     };
-
-    // Fetch user's (VENDOR) store for the vendor routes
-    useEffect(async () => {
-        const loadStores = async () => {
-            try {
-                const res = await fetch(`${BASE_URL}/store/user-stores`, {
-                    method: "GET",
-                    credentials: "include",
-                });
-                const data = await res.json();
-                if (!res.ok) {
-                    throw new Error(data.message || "Failed to fetch stores");
-                }
-
-                // store all the stores in the global storage & navigate
-                setStores(data.stores);
-
-                if(storeSlug) {
-                    setCurrentStore(storeSlug)
-                    return;
-                }
-
-                const newStoreSlug = currentStore?.slug || data.stores[0].slug;
-                setCurrentStore(newStoreSlug);
-
-                // Only navigate to dashboard if not already on a valid store route
-                const isStoreRoute = location.pathname.includes(
-                    `/store/${newStoreSlug}/`,
-                );
-                if (!isStoreRoute) {
-                    navigate(`/store/${newStoreSlug}/dashboard`);
-                }
-            } catch (err) {
-                console.error("Error fetching user stores:", err.message);
-                return;
-            }
-        };
-        await loadStores();
-    }, [currentStore?.slug, location.pathname, navigate, setStores, setCurrentStore]);
 
     return (
         <AppShell
