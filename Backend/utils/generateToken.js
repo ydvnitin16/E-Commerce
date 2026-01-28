@@ -1,7 +1,7 @@
-import jwt from 'jsonwebtoken';
+import jwt from "jsonwebtoken";
 
 const generateTokenAndSetCookie = (res, user) => {
-    const expireTokenIn = '30d';
+    const expireTokenIn = "30d";
     const expireTokenCookieIn = 30 * 24 * 60 * 60 * 1000; // 30 days
 
     const token = jwt.sign(
@@ -13,13 +13,13 @@ const generateTokenAndSetCookie = (res, user) => {
             image: user.image || null,
         },
         process.env.JWT_SECRET_KEY,
-        { expiresIn: expireTokenIn }
+        { expiresIn: expireTokenIn },
     );
 
-    res.cookie('authHeader', `Bearer ${token}`, {
+    res.cookie("authHeader", `Bearer ${token}`, {
         httpOnly: true,
-        secure: true,
-        sameSite: 'none',
+        secure: process.env?.NODE_ENV === "production",
+        sameSite: process.env?.NODE_ENV === "production" ? "none" : "lax",
         maxAge: expireTokenCookieIn,
     });
 };
